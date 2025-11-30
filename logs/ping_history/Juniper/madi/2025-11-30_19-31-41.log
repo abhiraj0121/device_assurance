@@ -1,0 +1,15 @@
+
+PLAY [Test ICMP Ping] **********************************************************
+
+TASK [ICMP ping via shell] *****************************************************
+changed: [madi]
+
+TASK [debug] *******************************************************************
+ok: [madi] => {
+    "ping_output.stdout": "PING 10.70.27.1 (10.70.27.1) 56(84) bytes of data.\n64 bytes from 10.70.27.1: icmp_seq=1 ttl=62 time=20.9 ms\n64 bytes from 10.70.27.1: icmp_seq=2 ttl=62 time=18.6 ms\n64 bytes from 10.70.27.1: icmp_seq=3 ttl=62 time=14.4 ms\n\n--- 10.70.27.1 ping statistics ---\n3 packets transmitted, 3 received, 0% packet loss, time 2003ms\nrtt min/avg/max/mdev = 14.421/17.948/20.859/2.664 ms"
+}
+
+PLAY RECAP *********************************************************************
+madi                       : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+

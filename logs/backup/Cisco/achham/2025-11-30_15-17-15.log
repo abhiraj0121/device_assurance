@@ -1,0 +1,10 @@
+
+PLAY [Test connectivity] *******************************************************
+
+TASK [Ping using raw ping (works on all)] **************************************
+fatal: [achham]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 10.70.160.1 port 22: Connection refused", "unreachable": true}
+
+PLAY RECAP *********************************************************************
+achham                     : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+
+

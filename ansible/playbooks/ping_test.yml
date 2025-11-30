@@ -1,0 +1,10 @@
+- name: Test ICMP Ping
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: ICMP ping via shell
+      ansible.builtin.shell: "ping -c 3 {{ ansible_host }}"
+      register: ping_output
+
+    - debug:
+        var: ping_output.stdout

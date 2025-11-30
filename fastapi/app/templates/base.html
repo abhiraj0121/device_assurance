@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title if title else "DOS Console" }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom UI refinements -->
+    <link rel="stylesheet" href="/static/css/app.css">
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- ======================== -->
+    <!-- Top Navigation Bar -->
+    <!-- ======================== -->
+    <nav class="bg-white shadow-md px-6 py-4 sticky top-0 z-30">
+        <div class="flex items-center justify-between">
+
+            <!-- Left: App Name -->
+            <div class="flex items-center space-x-3">
+                <span class="text-xl font-bold text-blue-700">
+                    DOS Device Assurance
+                </span>
+            </div>
+
+            <!-- Right: Navigation Links -->
+            <div class="flex items-center space-x-6">
+
+                <a href="/backup"
+                   class="nav-link text-gray-700 hover:text-blue-600">
+                    Backup Jobs
+                </a>
+
+                <a href="/logs"
+                   class="nav-link text-gray-700 hover:text-blue-600">
+                    Logs
+                </a>
+
+                <a href="/logout"
+                   class="nav-link text-gray-700 hover:text-red-600">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ======================== -->
+    <!-- Page Content Wrapper -->
+    <!-- ======================== -->
+    <div class="p-6">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

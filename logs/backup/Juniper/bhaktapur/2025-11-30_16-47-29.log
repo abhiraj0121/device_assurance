@@ -1,0 +1,15 @@
+
+PLAY [Test ICMP Ping] **********************************************************
+
+TASK [ICMP ping via shell] *****************************************************
+changed: [bhaktapur]
+
+TASK [debug] *******************************************************************
+ok: [bhaktapur] => {
+    "ping_output.stdout": "PING 10.70.21.1 (10.70.21.1) 56(84) bytes of data.\n64 bytes from 10.70.21.1: icmp_seq=1 ttl=62 time=1.68 ms\n64 bytes from 10.70.21.1: icmp_seq=2 ttl=62 time=1.71 ms\n64 bytes from 10.70.21.1: icmp_seq=3 ttl=62 time=1.80 ms\n\n--- 10.70.21.1 ping statistics ---\n3 packets transmitted, 3 received, 0% packet loss, time 2001ms\nrtt min/avg/max/mdev = 1.682/1.732/1.803/0.051 ms"
+}
+
+PLAY RECAP *********************************************************************
+bhaktapur                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+

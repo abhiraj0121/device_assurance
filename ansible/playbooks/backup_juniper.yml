@@ -1,0 +1,22 @@
+---
+- name: Backup Juniper device configuration
+  hosts: juniper
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: Collect configuration
+      juniper_junos_config:
+        retrieve: "candidate"
+      register: config_output
+
+    - name: Create backup directory
+      ansible.builtin.file:
+        path: "/opt/device_assurance/backups/juniper"
+        state: directory
+        mode: '0755'
+
+    - name: Save configuration to file
+      copy:
+        content: "{{ config_output.config }}"
+        dest: "/opt/device_assurance/backups/juniper/{{ inventory_hostname }}.conf"

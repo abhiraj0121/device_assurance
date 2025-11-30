@@ -1,0 +1,11 @@
+
+PLAY [Test connectivity] *******************************************************
+
+TASK [Ping using raw ping (works on all)] **************************************
+fatal: [panchthar]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname panchthar: Name or service not known", "unreachable": true}
+
+PLAY RECAP *********************************************************************
+panchthar                  : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+[WARNING]: Found variable using reserved name: name

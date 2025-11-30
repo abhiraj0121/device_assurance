@@ -1,0 +1,10 @@
+
+PLAY [Test connectivity] *******************************************************
+
+TASK [Ping using raw ping (works on all)] **************************************
+fatal: [taplejung]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: abhiraj@10.70.35.1: Permission denied (publickey,password,keyboard-interactive).", "unreachable": true}
+
+PLAY RECAP *********************************************************************
+taplejung                  : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+
+

@@ -1,0 +1,825 @@
+# ansible/inventories/devices.yml
+
+all:
+  children:
+    branch:
+      hosts:
+
+        taplejung:
+          ansible_host: "10.70.35.1"
+          device_name: "Taplejung"
+          vendor: "Sophos"
+          ip: "10.70.35.1"
+
+        panchthar:
+          ansible_host: "10.70.87.1"
+          device_name: "Panchthar"
+          vendor: "Cisco"
+          ip: "10.70.87.1"
+
+        dhankuta:
+          ansible_host: "10.70.92.1"
+          device_name: "Dhankuta"
+          vendor: "Cisco"
+          ip: "10.70.92.1"
+
+        solukhumbu:
+          ansible_host: "10.70.41.1"
+          device_name: "Solukhumbu"
+          vendor: "Sophos"
+          ip: "10.70.41.1"
+
+        ramechhap:
+          ansible_host: "10.70.111.1"
+          device_name: "Ramechhap"
+          vendor: "Cisco"
+          ip: "10.70.111.1"
+
+        dolakha:
+          ansible_host: "10.70.24.1"
+          device_name: "Dolakha"
+          vendor: "Juniper"
+          ip: "10.70.24.1"
+
+        sindhupalchowk:
+          ansible_host: "10.70.39.1"
+          device_name: "Sindhupalchowk"
+          vendor: "Sophos"
+          ip: "10.70.39.1"
+
+        nuwakot:
+          ansible_host: "10.70.93.1"
+          device_name: "Nuwakot"
+          vendor: "Juniper"
+          ip: "10.70.93.1"
+
+        rasuwa:
+          ansible_host: "10.70.25.1"
+          device_name: "Rasuwa"
+          vendor: "Sophos"
+          ip: "10.70.25.1"
+
+        dhading:
+          ansible_host: "10.70.70.1"
+          device_name: "Dhading"
+          vendor: "Juniper"
+          ip: "10.70.70.1"
+
+        lamjung:
+          ansible_host: "10.70.42.1"
+          device_name: "Lamjung"
+          vendor: "Sophos"
+          ip: "10.70.42.1"
+
+        tanahu:
+          ansible_host: "10.70.40.1"
+          device_name: "Tanahu"
+          vendor: "Sophos"
+          ip: "10.70.40.1"
+
+        manang:
+          ansible_host: "10.70.59.1"
+          device_name: "Manang"
+          vendor: "Sophos"
+          ip: "10.70.59.1"
+
+        mustang:
+          ansible_host: "10.70.138.1"
+          device_name: "Mustang"
+          vendor: "Cisco"
+          ip: "10.70.138.1"
+
+        myagdi:
+          ansible_host: "10.70.137.1"
+          device_name: "Myagdi"
+          vendor: "Cisco"
+          ip: "10.70.137.1"
+
+        parbat:
+          ansible_host: "10.70.31.1"
+          device_name: "Parbat"
+          vendor: "Sophos"
+          ip: "10.70.31.1"
+
+        arghakhanchi:
+          ansible_host: "10.70.140.1"
+          device_name: "Arghakhanchi"
+          vendor: "Cisco"
+          ip: "10.70.140.1"
+
+        salyan:
+          ansible_host: "10.70.141.1"
+          device_name: "Salyan"
+          vendor: "Cisco"
+          ip: "10.70.141.1"
+
+        jajarkot:
+          ansible_host: "10.70.30.1"
+          device_name: "Jajarkot"
+          vendor: "Juniper"
+          ip: "10.70.30.1"
+
+        dolpa:
+          ansible_host: "10.70.134.1"
+          device_name: "Dolpa"
+          vendor: "Cisco"
+          ip: "10.70.134.1"
+
+        jumla:
+          ansible_host: "10.70.108.1"
+          device_name: "Jumla"
+          vendor: "Sophos"
+          ip: "10.70.108.1"
+
+        kalikot:
+          ansible_host: "10.70.145.1"
+          device_name: "Kalikot"
+          vendor: "Cisco"
+          ip: "10.70.145.1"
+
+        mugu:
+          ansible_host: "10.70.146.1"
+          device_name: "Mugu"
+          vendor: "Cisco"
+          ip: "10.70.146.1"
+
+        humla:
+          ansible_host: "10.70.147.1"
+          device_name: "Humla"
+          vendor: "Cisco"
+          ip: "10.70.147.1"
+
+        bajura:
+          ansible_host: "10.70.149.1"
+          device_name: "Bajura"
+          vendor: "Cisco"
+          ip: "10.70.149.1"
+
+        achham:
+          ansible_host: "10.70.160.1"
+          device_name: "Achham"
+          vendor: "Cisco"
+          ip: "10.70.160.1"
+
+        dadeldhura:
+          ansible_host: "10.70.103.1"
+          device_name: "Dadeldhura"
+          vendor: "Cisco"
+          ip: "10.70.103.1"
+
+        baitadi:
+          ansible_host: "10.70.106.1"
+          device_name: "Baitadi"
+          vendor: "Cisco"
+          ip: "10.70.106.1"
+
+        kaski_lekhnath:
+          ansible_host: "10.70.37.1"
+          device_name: "Kaski_Lekhnath"
+          vendor: "Sophos"
+          ip: "10.70.37.1"
+
+        kaski_pokhara:
+          ansible_host: "10.70.32.1"
+          device_name: "Kaski_pokhara"
+          vendor: "Juniper"
+          ip: "10.70.32.1"
+
+        manamaiju:
+          ansible_host: "10.70.19.1"
+          device_name: "Manamaiju"
+          vendor: "Sophos"
+          ip: "10.70.19.1"
+
+        chainpur:
+          ansible_host: "10.70.118.1"
+          device_name: "Chainpur"
+          vendor: "Cisco"
+          ip: "10.70.118.1"
+
+        madi:
+          ansible_host: "10.70.27.1"
+          device_name: "Madi"
+          vendor: "Juniper"
+          ip: "10.70.27.1"
+
+        tokha:
+          ansible_host: "10.70.20.1"
+          device_name: "Tokha"
+          vendor: "Sophos"
+          ip: "10.70.20.1"
+
+        chabahil:
+          ansible_host: "10.70.17.1"
+          device_name: "Chabahil"
+          vendor: "Sophos"
+          ip: "10.70.17.1"
+
+        shankhu:
+          ansible_host: "10.70.18.1"
+          device_name: "Shankhu"
+          vendor: "Juniper"
+          ip: "10.70.18.1"
+
+        kalanki:
+          ansible_host: "10.70.15.1"
+          device_name: "Kalanki"
+          vendor: "Sophos"
+          ip: "10.70.15.1"
+
+        chanauli:
+          ansible_host: "10.70.28.1"
+          device_name: "Chanauli"
+          vendor: "Sophos"
+          ip: "10.70.28.1"
+
+        dilibazar:
+          ansible_host: "10.70.16.1"
+          device_name: "Dilibazar"
+          vendor: "Juniper"
+          ip: "10.70.16.1"
+
+        bhaktapur:
+          ansible_host: "10.70.21.1"
+          device_name: "Bhaktapur"
+          vendor: "Juniper"
+          ip: "10.70.21.1"
+
+        gotikhel:
+          ansible_host: "10.70.23.1"
+          device_name: "Gotikhel"
+          vendor: "Juniper"
+          ip: "10.70.23.1"
+
+        kavre:
+          ansible_host: "10.70.38.1"
+          device_name: "Kavre"
+          vendor: "Juniper"
+          ip: "10.70.38.1"
+
+        sindhuli:
+          ansible_host: "10.70.110.1"
+          device_name: "Sindhuli"
+          vendor: "Cisco"
+          ip: "10.70.110.1"
+
+        lalitpur:
+          ansible_host: "10.70.22.1"
+          device_name: "Lalitpur"
+          vendor: "Juniper"
+          ip: "10.70.22.1"
+
+        sirdibas:
+          ansible_host: "10.70.136.1"
+          device_name: "Sirdibas"
+          vendor: "Cisco"
+          ip: "10.70.136.1"
+
+        sankrantibajar:
+          ansible_host: "10.70.117.1"
+          device_name: "Sankrantibajar"
+          vendor: "Cisco"
+          ip: "10.70.117.1"
+
+        terhathum:
+          ansible_host: "10.70.116.1"
+          device_name: "Terhathum"
+          vendor: "Cisco"
+          ip: "10.70.116.1"
+
+        gorkha:
+          ansible_host: "10.70.69.1"
+          device_name: "Gorkha"
+          vendor: "Juniper"
+          ip: "10.70.69.1"
+
+        palpa:
+          ansible_host: "10.70.52.1"
+          device_name: "Palpa"
+          vendor: "Sophos"
+          ip: "10.70.52.1"
+
+        bhairahwa:
+          ansible_host: "10.70.55.1"
+          device_name: "Bhairahwa"
+          vendor: "Sophos"
+          ip: "10.70.55.1"
+
+        biratnagar:
+          ansible_host: "10.70.57.1"
+          device_name: "Biratnagar"
+          vendor: "Juniper"
+          ip: "10.70.57.1"
+
+        okhaldhunga_khijiphalate:
+          ansible_host: "10.70.79.1"
+          device_name: "Okhaldhunga_Khijiphalate"
+          vendor: "Cisco"
+          ip: "10.70.79.1"
+
+        khotang_bazaar:
+          ansible_host: "10.70.83.1"
+          device_name: "Khotang_Bazaar"
+          vendor: "Cisco"
+          ip: "10.70.83.1"
+
+        khotang_diktel:
+          ansible_host: "10.70.84.1"
+          device_name: "Khotang_Diktel"
+          vendor: "Cisco"
+          ip: "10.70.84.1"
+
+        okhaldhunga:
+          ansible_host: "10.70.43.1"
+          device_name: "Okhaldhunga"
+          vendor: "Sophos"
+          ip: "10.70.43.1"
+
+        syanjya_waling:
+          ansible_host: "10.70.34.1"
+          device_name: "Syanjya_Waling"
+          vendor: "Sophos"
+          ip: "10.70.34.1"
+
+        syanjya_putalibazar:
+          ansible_host: "10.70.33.1"
+          device_name: "Syanjya_Putalibazar"
+          vendor: "Sophos"
+          ip: "10.70.33.1"
+
+        majiwabazaar:
+          ansible_host: "10.70.98.1"
+          device_name: "Majuwabazaar"
+          vendor: "Sophos"
+          ip: "10.70.98.1"
+
+        gulmi:
+          ansible_host: "10.70.52.1"
+          device_name: "Gulmi"
+          vendor: "Sophos"
+          ip: "10.70.52.1"
+
+        palpa_rampur:
+          ansible_host: "10.70.99.1"
+          device_name: "Palpa_Rampur"
+          vendor: "Sophos"
+          ip: "10.70.99.1"
+
+        rajapur:
+          ansible_host: "10.70.142.1"
+          device_name: "Rajapur"
+          vendor: "Cisco"
+          ip: "10.70.142.1"
+
+        sunsari_dharan:
+          ansible_host: "10.70.44.1"
+          device_name: "Sunsari_Dharan"
+          vendor: "Sophos"
+          ip: "10.70.44.1"
+
+        bardibas:
+          ansible_host: "10.70.107.1"
+          device_name: "Bardibas"
+          vendor: "Cisco"
+          ip: "10.70.107.1"
+
+        dang_tulsipur:
+          ansible_host: "10.70.76.1"
+          device_name: "Dang_Tulsipur"
+          vendor: "Sophos"
+          ip: "10.70.76.1"
+
+        udayapur_katari:
+          ansible_host: "10.70.86.1"
+          device_name: "Udayapur_Katari"
+          vendor: "Cisco"
+          ip: "10.70.86.1"
+
+        burtibang:
+          ansible_host: "10.70.95.1"
+          device_name: "Burtibang"
+          vendor: "Juniper"
+          ip: "10.70.95.1"
+
+        kapilbastu_chandrauta:
+          ansible_host: "10.70.77.1"
+          device_name: "Kapilbastu_Chandrauta"
+          vendor: "Juniper"
+          ip: "10.70.77.1"
+
+        chandranigapur:
+          ansible_host: "10.70.64.1"
+          device_name: "Chandranigapur"
+          vendor: "Juniper"
+          ip: "10.70.64.1"
+
+        rangeli:
+          ansible_host: "10.70.109.1"
+          device_name: "Rangeli"
+          vendor: "Sophos"
+          ip: "10.70.109.1"
+
+        mehelkuna:
+          ansible_host: "10.70.48.1"
+          device_name: "Mehelkuna"
+          vendor: "Sophos"
+          ip: "10.70.48.1"
+
+        simraungadh:
+          ansible_host: "10.70.129.1"
+          device_name: "Simraungadh"
+          vendor: "Unknown"
+          ip: "10.70.129.1"
+
+        balara:
+          ansible_host: "10.70.128.1"
+          device_name: "Balara"
+          vendor: "Unknown"
+          ip: "10.70.128.1"
+
+        majhgauwa:
+          ansible_host: "10.70.105.1"
+          device_name: "Majhgauwa"
+          vendor: "Cisco"
+          ip: "10.70.105.1"
+
+        jhotabhairab:
+          ansible_host: "10.70.148.1"
+          device_name: "Jhotabhairab"
+          vendor: "Unknown"
+          ip: "10.70.148.1"
+
+        doti:
+          ansible_host: "10.70.104.1"
+          device_name: "Doti"
+          vendor: "Cisco"
+          ip: "10.70.104.1"
+
+        pyuthan_jaspur:
+          ansible_host: "10.70.82.1"
+          device_name: "Pyuthan_Jaspur"
+          vendor: "Cisco"
+          ip: "10.70.82.1"
+
+        rolpa_ghartigahau:
+          ansible_host: "10.70.50.1"
+          device_name: "Rolpa_Ghartigahau"
+          vendor: "Sophos"
+          ip: "10.70.50.1"
+
+        rukum_east:
+          ansible_host: "10.70.58.1"
+          device_name: "Rukum_East"
+          vendor: "Juniper"
+          ip: "10.70.58.1"
+
+        dullu:
+          ansible_host: "10.70.114.1"
+          device_name: "Dullu"
+          vendor: "Cisco"
+          ip: "10.70.114.1"
+
+        dailekh:
+          ansible_host: "10.70.113.1"
+          device_name: "Dailekh"
+          vendor: "Juniper"
+          ip: "10.70.113.1"
+
+        bajhang:
+          ansible_host: "10.70.91.1"
+          device_name: "Bajhang"
+          vendor: "Cisco"
+          ip: "10.70.91.1"
+
+        dang_lamahi:
+          ansible_host: "10.70.74.1"
+          device_name: "Dang_Lamahi"
+          vendor: "Sophos"
+          ip: "10.70.74.1"
+
+        dang_ghorahi:
+          ansible_host: "10.70.94.1"
+          device_name: "Dang_Ghorahi"
+          vendor: "Juniper"
+          ip: "10.70.94.1"
+
+        rukum_west:
+          ansible_host: "10.70.60.1"
+          device_name: "Rukum_West"
+          vendor: "Juniper"
+          ip: "10.70.60.1"
+
+        surkhet_birendranagar:
+          ansible_host: "10.70.49.1"
+          device_name: "Surkhet_birendranagar"
+          vendor: "Sophos"
+          ip: "10.70.49.1"
+
+        pyuthan_khalanga:
+          ansible_host: "10.70.90.1"
+          device_name: "Pyuthan_Khalanga"
+          vendor: "Cisco"
+          ip: "10.70.90.1"
+
+        rolpa_liwang:
+          ansible_host: "10.70.51.1"
+          device_name: "Rolpa_Liwang"
+          vendor: "Juniper"
+          ip: "10.70.51.1"
+
+        khadbari:
+          ansible_host: "10.70.47.1"
+          device_name: "Khadbari"
+          vendor: "Sophos"
+          ip: "10.70.47.1"
+
+        ilam_mangalbare:
+          ansible_host: "10.70.97.1"
+          device_name: "Ilam_Mangalbare"
+          vendor: "Juniper"
+          ip: "10.70.97.1"
+
+        ilam:
+          ansible_host: "10.70.78.1"
+          device_name: "Ilam"
+          vendor: "Cisco"
+          ip: "10.70.78.1"
+
+        makwanpur_shikarkot:
+          ansible_host: "10.70.89.1"
+          device_name: "Makwanpur_Shikarkot"
+          vendor: "Cisco"
+          ip: "10.70.89.1"
+
+        jhapa_damak:
+          ansible_host: "10.70.54.1"
+          device_name: "Jhapa_Damak"
+          vendor: "Sophos"
+          ip: "10.70.54.1"
+
+        baglung:
+          ansible_host: "10.70.67.1"
+          device_name: "Baglung"
+          vendor: "Sophos"
+          ip: "10.70.67.1"
+
+        bhojpur_dingla:
+          ansible_host: "10.70.120.1"
+          device_name: "Bhojpur_Dingla"
+          vendor: "Cisco"
+          ip: "10.70.120.1"
+
+        bhojpur:
+          ansible_host: "10.70.119.1"
+          device_name: "Bhojpur"
+          vendor: "Cisco"
+          ip: "10.70.119.1"
+
+        udayapur_gaighat:
+          ansible_host: "10.70.88.1"
+          device_name: "Udayapur_Gaighat"
+          vendor: "Cisco"
+          ip: "10.70.88.1"
+
+        saptari:
+          ansible_host: "10.70.121.1"
+          device_name: "Saptari"
+          vendor: "Unknown"
+          ip: "10.70.121.1"
+
+        makawanpur_hetauda:
+          ansible_host: "10.70.75.1"
+          device_name: "Makawanpur_Hetauda"
+          vendor: "Juniper"
+          ip: "10.70.75.1"
+
+        bara_kalaiya:
+          ansible_host: "10.70.132.1"
+          device_name: "Bara_kalaiya"
+          vendor: "Unknown"
+          ip: "10.70.132.1"
+
+        dhanusha_dhalkebar:
+          ansible_host: "10.70.85.1"
+          device_name: "Dhanusha_Dhalkebar"
+          vendor: "Juniper"
+          ip: "10.70.85.1"
+
+        janakpur_dhanusa:
+          ansible_host: "10.70.56.1"
+          device_name: "Janakpur_Dhanusa"
+          vendor: "Sophos"
+          ip: "10.70.56.1"
+
+        butwal:
+          ansible_host: "10.70.53.1"
+          device_name: "Butwal"
+          vendor: "Sophos"
+          ip: "10.70.53.1"
+
+        rauthahut_maulapur:
+          ansible_host: "10.70.61.1"
+          device_name: "Rauthahut_Maulapur"
+          vendor: "Sophos"
+          ip: "10.70.61.1"
+
+        rautahat:
+          ansible_host: "10.70.130.1"
+          device_name: "Rautahat"
+          vendor: "Unknown"
+          ip: "10.70.130.1"
+
+        mahottari:
+          ansible_host: "10.70.125.1"
+          device_name: "Mahottari"
+          vendor: "Cisco"
+          ip: "10.70.125.1"
+
+        kapilbastu:
+          ansible_host: "10.70.81.1"
+          device_name: "Kapilbastu"
+          vendor: "Juniper"
+          ip: "10.70.81.1"
+
+        jhapa_chandragadhi:
+          ansible_host: "10.70.46.1"
+          device_name: "Jhapa_Chandragadhi"
+          vendor: "Sophos"
+          ip: "10.70.46.1"
+
+        tikapur:
+          ansible_host: "10.70.115.1"
+          device_name: "Tikapur"
+          vendor: "Cisco"
+          ip: "10.70.115.1"
+
+        kailali_dhangadhi:
+          ansible_host: "10.70.66.1"
+          device_name: "Kailali_Dhangadhi"
+          vendor: "Sophos"
+          ip: "10.70.66.1"
+
+        parasi:
+          ansible_host: "10.70.80.1"
+          device_name: "Parasi"
+          vendor: "Sophos"
+          ip: "10.70.80.1"
+
+        garuda:
+          ansible_host: "10.70.131.1"
+          device_name: "Garuda"
+          vendor: "Unknown"
+          ip: "10.70.131.1"
+
+        belbari:
+          ansible_host: "10.70.45.1"
+          device_name: "Belbari"
+          vendor: "Juniper"
+          ip: "10.70.45.1"
+
+        khairahani:
+          ansible_host: "10.70.29.1"
+          device_name: "Khairahani"
+          vendor: "Juniper"
+          ip: "10.70.29.1"
+
+        sunsari_inaruwa:
+          ansible_host: "10.70.63.1"
+          device_name: "Sunsari_Inaruwa"
+          vendor: "Juniper"
+          ip: "10.70.63.1"
+
+        kanchanpur_saptari:
+          ansible_host: "10.70.122.1"
+          device_name: "Kanchanpur_Saptari"
+          vendor: "Unknown"
+          ip: "10.70.122.1"
+
+        bardiya:
+          ansible_host: "10.70.112.1"
+          device_name: "Bardiya"
+          vendor: "Cisco"
+          ip: "10.70.112.1"
+
+        kanchanpur_mahendranagar:
+          ansible_host: "10.70.62.1"
+          device_name: "Kanchanpur_mahendranagar"
+          vendor: "Sophos"
+          ip: "10.70.62.1"
+
+        bellauri:
+          ansible_host: "10.70.68.1"
+          device_name: "Bellauri"
+          vendor: "Sophos"
+          ip: "10.70.68.1"
+
+        lahan:
+          ansible_host: "10.70.124.1"
+          device_name: "Lahan"
+          vendor: "Unknown"
+          ip: "10.70.124.1"
+
+        siraha:
+          ansible_host: "10.70.123.1"
+          device_name: "Siraha"
+          vendor: "Unknown"
+          ip: "10.70.123.1"
+
+        chitwan:
+          ansible_host: "10.70.26.1"
+          device_name: "Chitwan"
+          vendor: "Sophos"
+          ip: "10.70.26.1"
+
+        parsa:
+          ansible_host: "10.70.143.1"
+          device_name: "Parsa"
+          vendor: "Cisco"
+          ip: "10.70.143.1"
+
+        sarlahi_hariban:
+          ansible_host: "10.70.72.1"
+          device_name: "Sarlahi_Hariban"
+          vendor: "Juniper"
+          ip: "10.70.72.1"
+
+        barahathawa:
+          ansible_host: "10.70.96.1"
+          device_name: "Barahathawa"
+          vendor: "Sophos"
+          ip: "10.70.96.1"
+
+        sarlahi_malangawa:
+          ansible_host: "10.70.127.1"
+          device_name: "Sarlahi_Malangawa"
+          vendor: "Unknown"
+          ip: "10.70.127.1"
+
+        rukum_aathbishkot:
+          ansible_host: "10.70.73.1"
+          device_name: "Rukum_Aathbishkot"
+          vendor: "Sophos"
+          ip: "10.70.73.1"
+
+        sinja:
+          ansible_host: "10.70.144.1"
+          device_name: "Sinja"
+          vendor: "Unknown"
+          ip: "10.70.144.1"
+
+        banganga:
+          ansible_host: "10.70.139.1"
+          device_name: "Banganga"
+          vendor: "Unknown"
+          ip: "10.70.139.1"
+
+        kohalpur:
+          ansible_host: "10.70.71.1"
+          device_name: "Kohalpur"
+          vendor: "Juniper"
+          ip: "10.70.71.1"
+
+        banke_nepalgung:
+          ansible_host: "10.70.65.1"
+          device_name: "Banke_Nepalgung"
+          vendor: "Juniper"
+          ip: "10.70.65.1"
+
+        bara_simara:
+          ansible_host: "10.70.133.1"
+          device_name: "Bara_Simara"
+          vendor: "Unknown"
+          ip: "10.70.133.1"
+
+        mahottari_gausala:
+          ansible_host: "10.70.126.1"
+          device_name: "Mahottari_Gausala"
+          vendor: "Cisco"
+          ip: "10.70.126.1"
+
+        jogbudha:
+          ansible_host: "10.70.101.1"
+          device_name: "Jogbudha"
+          vendor: "Cisco"
+          ip: "10.70.101.1"
+
+        nawalpur_kawasoti:
+          ansible_host: "10.70.100.1"
+          device_name: "Nawalpur_Kawasoti"
+          vendor: "Juniper"
+          ip: "10.70.100.1"
+          
+    core:
+      hosts:
+        dc_core_switch:
+          name: "DC Core Switch"
+          vendor: "Cisco"
+          ip: "10.100.0.10"
+          group: "core"
+
+        dc_san_switch:
+          name: "SAN Switch"
+          vendor: "Brocade"
+          ip: "10.100.0.20"
+          group: "core"
+ 

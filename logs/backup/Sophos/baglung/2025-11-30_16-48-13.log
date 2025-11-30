@@ -1,0 +1,10 @@
+
+PLAY [Test ICMP Ping] **********************************************************
+
+TASK [ICMP ping via shell] *****************************************************
+fatal: [baglung]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: Unable to negotiate with 10.70.67.1 port 22: no matching host key type found. Their offer: ssh-rsa,ssh-dss", "unreachable": true}
+
+PLAY RECAP *********************************************************************
+baglung                    : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+
+
