@@ -1,0 +1,18 @@
+
+PLAY [Backup Juniper Configuration] ********************************************
+
+TASK [Ensure NETCONF works] ****************************************************
+ok: [banke_nepalgung]
+
+TASK [debug] *******************************************************************
+ok: [banke_nepalgung] => {
+    "msg": "Connected via NETCONF successfully"
+}
+
+TASK [Retrieve full running configuration (set format)] ************************
+fatal: [banke_nepalgung]: FAILED! => {"changed": false, "msg": "Could not open socket to 10.70.65.1:830"}
+
+PLAY RECAP *********************************************************************
+banke_nepalgung            : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+

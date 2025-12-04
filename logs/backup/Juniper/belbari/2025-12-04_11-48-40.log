@@ -1,0 +1,11 @@
+
+PLAY [Backup Juniper Running Config via SSH CLI] *******************************
+
+TASK [Retrieve running configuration (text format)] ****************************
+fatal: [belbari]: FAILED! => {"changed": false, "msg": "Failed to authenticate: Authentication failed."}
+
+PLAY RECAP *********************************************************************
+belbari                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko

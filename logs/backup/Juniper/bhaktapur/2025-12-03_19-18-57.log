@@ -1,0 +1,11 @@
+
+PLAY [Backup Juniper Running Config via SSH CLI] *******************************
+
+TASK [Retrieve running configuration (text format)] ****************************
+fatal: [bhaktapur]: FAILED! => {"changed": false, "msg": "command timeout triggered, timeout value is 30 secs.\nSee the timeout setting options in the Network Debug and Troubleshooting Guide."}
+
+PLAY RECAP *********************************************************************
+bhaktapur                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko

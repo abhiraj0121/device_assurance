@@ -1,22 +1,33 @@
 ---
-- name: Backup Juniper device configuration
-  hosts: juniper
+- name: Backup Juniper Running Config via SSH CLI
+  hosts: all
   gather_facts: no
-  connection: network_cli
+
+  vars:
+    ansible_connection: ansible.netcommon.network_cli
+    ansible_network_os: junipernetworks.junos.junos
+    base_config_dir: "/home/abhiraj/Projects/device_assurance/ansible/configs"
+    timestamp: "{{ lookup('pipe', 'date +%Y-%m-%d_%H-%M-%S') }}"
 
   tasks:
-    - name: Collect configuration
-      juniper_junos_config:
-        retrieve: "candidate"
+
+    - name: Retrieve running configuration (text format)
+      junipernetworks.junos.junos_command:
+        commands:
+          - "show configuration | display set"
+        display: text
       register: config_output
 
-    - name: Create backup directory
-      ansible.builtin.file:
-        path: "/opt/device_assurance/backups/juniper"
+    - name: Ensure device config directory exists
+      file:
+        path: "{{ base_config_dir }}/{{ inventory_hostname }}"
         state: directory
         mode: '0755'
 
-    - name: Save configuration to file
+    - name: Save configuration to timestamped file
       copy:
-        content: "{{ config_output.config }}"
-        dest: "/opt/device_assurance/backups/juniper/{{ inventory_hostname }}.conf"
+        content: "{{ config_output.stdout[0] }}"
+        dest: "{{ base_config_dir }}/{{ inventory_hostname }}/{{ timestamp }}.set"
+
+    - debug:
+        msg: "Backup saved for {{ inventory_hostname }} at {{ timestamp }}"

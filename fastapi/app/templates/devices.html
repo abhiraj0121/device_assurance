@@ -10,45 +10,43 @@ async function runPing(deviceId) {
         const res = await fetch(url, { method: "POST" });
         const data = await res.json();
 
-        const resultBox = document.getElementById(`ping-result-${deviceId}`);
-        if (!resultBox) return;
+        const box = document.getElementById(`result-${deviceId}`);
+        if (!box) return;
 
-        resultBox.classList.remove("hidden");
+        box.classList.remove("hidden");
 
-        // Colors
-        if (data.status === "success") {
-            resultBox.classList.add("text-green-700");
-            resultBox.classList.remove("text-red-700");
-        } else {
-            resultBox.classList.add("text-red-700");
-            resultBox.classList.remove("text-green-700");
-        }
+        // Status label + color
+        const isSuccess = data.status === "success";
+        const statusLabel = isSuccess ? "✔ Ping Success" : "✘ Ping Failed";
 
-        const statusLabel =
-            data.status === "success" ? "✔ Ping Success" : "✘ Ping Failed";
+        box.classList.toggle("text-green-700", isSuccess);
+        box.classList.toggle("text-red-700", !isSuccess);
 
-        // CLEAN output (backend cleaned; no regex needed)
-        const output = data.output || "";
-
-        // CLOSE BUTTON: collapse result box
+        // Close button
         const closeButton = `
             <button
-                onclick="document.getElementById('ping-result-${deviceId}').classList.add('hidden')"
+                onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
                 class="text-gray-500 hover:text-black ml-2"
-                style="font-size: 14px; font-weight: bold;"
+                style="font-size: 16px; font-weight: bold; line-height: 12px;"
             >×</button>
         `;
 
-        // Build HTML
-        resultBox.innerHTML = `
-            <div class="flex justify-between items-center mb-2">
-                <strong>${statusLabel}</strong>
-                ${closeButton}
-            </div>
+        // Clean output
+        const output = data.output || "";
 
-            <pre class="bg-white p-2 rounded border text-xs whitespace-pre-wrap leading-tight">
-                ${output}
-            </pre>
+        // Build final HTML
+        box.innerHTML = `
+            <div class="p-3 bg-gray-100 rounded border relative">
+
+                <div class="flex justify-between items-center mb-2">
+                    <strong>${statusLabel}</strong>
+                    ${closeButton}
+                </div>
+
+                <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">
+                    ${output}
+                </pre>
+            </div>
         `;
 
     } catch (err) {
@@ -56,111 +54,131 @@ async function runPing(deviceId) {
     }
 }
 
-
 async function runBackup(deviceId) {
-    try {
-        const res = await fetch(`/backup/run/${deviceId}/`, {
-            method: "POST"
-        });
+    const url = `/backup/run/${deviceId}/`;
 
+    try {
+        const res = await fetch(url, { method: "POST" });
         const data = await res.json();
-        alert(`BACKUP ${data.status.toUpperCase()} for ${deviceId}\nLog: ${data.logfile}`);
+
+        const box = document.getElementById(`result-${deviceId}`);
+        if (!box) return;
+
+        box.classList.remove("hidden");
+
+        const isSuccess = data.status === "success";
+        const statusLabel = isSuccess ? "✔ Backup Success" : "✘ Backup Failed";
+
+        box.classList.toggle("text-green-700", isSuccess);
+        box.classList.toggle("text-red-700", !isSuccess);
+
+        const closeButton = `
+            <button
+                onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
+                class="text-gray-500 hover:text-black ml-2"
+                style="font-size: 16px; font-weight: bold; line-height: 12px;"
+            >×</button>
+        `;
+
+        const logFile = data.logfile || "";
+
+        box.innerHTML = `
+            <div class="p-3 bg-gray-100 rounded border relative">
+
+                <div class="flex justify-between items-center mb-2">
+                    <strong>${statusLabel}</strong>
+                    ${closeButton}
+                </div>
+
+                <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">
+                    Log saved at:
+                    ${logFile}
+                </pre>
+            </div>
+        `;
 
     } catch (err) {
-        alert("Backup request error: " + err);
+        console.error("Backup request error:", err);
     }
 }
+
 </script>
-
-
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
+    <!-- LEFT: DATACENTER / CORE DEVICES -->
     <div class="bg-white rounded shadow p-6">
-        <h2 class="text-xl font-bold mb-4">🔄 Backup Panel</h2>
+        <h2 class="text-xl font-bold mb-4">🏢 DC / Core Devices ({{ core_devices|length }})</h2>
 
-        <button onclick="runBackup('all')"
-                class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
-            Backup All Devices
-        </button>
-    </div>
-
-    <!-- Devices -->
-    <div class="bg-white rounded shadow p-6">
-        <h2 class="text-xl font-bold mb-4">📡 Devices</h2>
-
-        <!-- Branch -->
-        <details class="mb-6">
-            <summary class="cursor-pointer text-lg font-semibold py-2">
-                🌿 Branch Devices ({{ branch_devices|length }})
-            </summary>
-
-            <div class="ml-4 mt-3">
-                {% for vendor, devices in branch_by_vendor.items() %}
-                <details class="mb-3">
-                    <summary class="cursor-pointer py-1 font-semibold flex items-center space-x-2">
-                        <span>{{ vendor }}</span>
-                        <span>({{ devices|length }})</span>
-                    </summary>
-
-                    <ul class="mt-3 space-y-3">
-                        {% for d in devices %}
-                            <li class="border rounded p-4 flex justify-between items-center">
-                                <div>
-                                    <p class="font-semibold">{{ d.name }}</p>
-                                    <p class="text-sm text-gray-600">{{ d.ip }}</p>
-                                </div>
-
-                                <div class="flex space-x-3">
-                                    <button
-                                        onclick="runPing('{{ d.id }}')"
-                                        class="bg-yellow-600 text-white px-4 py-1 rounded hover:bg-yellow-700">
-                                        Ping
-                                    </button>
-
-                                    <button
-                                        onclick="runBackup('{{ d.id }}')"
-                                        class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
-                                        Backup
-                                    </button>
-                                </div>
-                            </li>
-
-                            <!-- RESULT BOX BELOW IT -->
-                            <div id="ping-result-{{ d.id }}" class="hidden mt-2 p-3 rounded border bg-gray-50"></div>
-
-                        {% endfor %}
-                    </ul>
-
-
-                </details>
-                {% endfor %}
-            </div>
-        </details>
-
-        <!-- Core -->
-        <details>
-            <summary class="cursor-pointer text-lg font-semibold py-2">
-                🧩 Core Devices ({{ core_devices|length }})
-            </summary>
-
-            <ul class="mt-4 space-y-3">
-                {% for d in core_devices %}
-                <li class="border rounded p-4 flex justify-between items-center">
+        <ul class="space-y-3">
+        {% for d in core_devices %}
+            <li class="border rounded p-4">
+                <div class="flex justify-between items-center">
                     <div>
                         <p class="font-semibold">{{ d.name }}</p>
-                        <p class="text-sm text-gray-600">{{ d.vendor }} — {{ d.ip }}</p>
+                        <p class="text-sm text-gray-600">{{ d.ip }}</p>
                     </div>
 
-                    <button
-                        onclick="runBackup('{{ d.id }}')"
-                        class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
-                        Backup
-                    </button>
+                    <div class="flex space-x-2">
+                        <button onclick="runPing('{{ d.id }}')"
+                                class="bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700">
+                            Ping
+                        </button>
+
+                        <button onclick="runBackup('{{ d.id }}')"
+                                class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                            Backup
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Result area -->
+                <div id="result-{{ d.id }}" class="mt-2 hidden"></div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+
+
+    <!-- RIGHT: BRANCH DEVICES GROUPED BY VENDOR -->
+    <div class="bg-white rounded shadow p-6">
+        <h2 class="text-xl font-bold mb-4">🌿 Branch Devices</h2>
+
+        {% for vendor, devices in branch_by_vendor.items() %}
+        <details class="mb-4">
+            <summary class="cursor-pointer text-lg font-semibold py-2">
+                {{ vendor }} ({{ devices|length }})
+            </summary>
+
+            <ul class="mt-3 space-y-3 ml-3">
+            {% for d in devices %}
+                <li class="border rounded p-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="font-semibold">{{ d.name }}</p>
+                            <p class="text-sm text-gray-600">{{ d.ip }}</p>
+                        </div>
+
+                        <div class="flex space-x-2">
+                            <button onclick="runPing('{{ d.id }}')"
+                                    class="bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700">
+                                Ping
+                            </button>
+
+                            <button onclick="runBackup('{{ d.id }}')"
+                                    class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                                Backup
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Result area -->
+                    <div id="result-{{ d.id }}" class="mt-2 hidden"></div>
                 </li>
-                {% endfor %}
+            {% endfor %}
             </ul>
         </details>
-
+        {% endfor %}
     </div>
+
 </div>
 {% endblock %}

@@ -1,0 +1,15 @@
+
+PLAY [Test ICMP Ping] **********************************************************
+
+TASK [ICMP ping via shell] *****************************************************
+changed: [banke_nepalgung]
+
+TASK [debug] *******************************************************************
+ok: [banke_nepalgung] => {
+    "ping_output.stdout": "PING 10.70.65.1 (10.70.65.1) 56(84) bytes of data.\n64 bytes from 10.70.65.1: icmp_seq=1 ttl=253 time=6.45 ms\n64 bytes from 10.70.65.1: icmp_seq=2 ttl=253 time=7.64 ms\n64 bytes from 10.70.65.1: icmp_seq=3 ttl=253 time=6.55 ms\n\n--- 10.70.65.1 ping statistics ---\n3 packets transmitted, 3 received, 0% packet loss, time 2003ms\nrtt min/avg/max/mdev = 6.446/6.878/7.640/0.540 ms"
+}
+
+PLAY RECAP *********************************************************************
+banke_nepalgung            : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+

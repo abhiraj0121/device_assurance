@@ -22,16 +22,16 @@ PALO_BACKUP = PLAYBOOKS / "backup_paloalto.yml"
 
 VENDOR_CONFIG = {
     "Juniper": {
-        "ansible_connection": "netconf",
-        "ansible_network_os": "junos",
+        "ansible_connection": "ansible.netcommon.network_cli",
+        "ansible_network_os": "junipernetworks.junos.junos",
         "ansible_user": "root",
-        "ansible_password": "Survey@1244"
+        "ansible_password": "Survey@1255"
     },
     "Cisco": {
         "ansible_connection": "network_cli",
         "ansible_network_os": "ios",
         "ansible_user": "admin",
-        "ansible_password": "cisco123"
+        "ansible_password": "Survey@1244"
     },
     "Sophos": {
         "ansible_connection": "ssh",   # example

@@ -1,0 +1,19 @@
+
+PLAY [Backup Juniper Configuration via SSH CLI] ********************************
+
+TASK [Test SSH connectivity] ***************************************************
+ok: [belbari]
+
+TASK [debug] *******************************************************************
+ok: [belbari] => {
+    "msg": "Connected successfully over SSH"
+}
+
+TASK [Retrieve running configuration (set format)] *****************************
+fatal: [belbari]: FAILED! => {"changed": false, "cmd": "cli -c 'show configuration | display set'", "msg": "[Errno 2] No such file or directory: b'cli'", "rc": 2, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+PLAY RECAP *********************************************************************
+belbari                    : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko

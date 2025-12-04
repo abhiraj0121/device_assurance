@@ -1,0 +1,16 @@
+
+PLAY [Backup Juniper Running Config via SSH CLI] *******************************
+
+TASK [Retrieve running configuration (text format)] ****************************
+ok: [madi]
+
+TASK [Save configuration to file] **********************************************
+fatal: [madi]: FAILED! => {"changed": false, "checksum": "e91777485398344b78fc20d42b669e905d8da173", "msg": "Destination directory ./configs does not exist"}
+
+PLAY RECAP *********************************************************************
+madi                       : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko
+[WARNING]: arguments wait_for, match, rpcs are not supported when using
+transport=cli

@@ -1,0 +1,24 @@
+
+PLAY [Backup Juniper Running Config via SSH CLI] *******************************
+
+TASK [Retrieve running configuration (text format)] ****************************
+ok: [dolakha]
+
+TASK [Ensure device config directory exists] ***********************************
+changed: [dolakha]
+
+TASK [Save configuration to timestamped file] **********************************
+changed: [dolakha]
+
+TASK [debug] *******************************************************************
+ok: [dolakha] => {
+    "msg": "Backup saved for dolakha at 2025-12-03_19-16-42"
+}
+
+PLAY RECAP *********************************************************************
+dolakha                    : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko
+[WARNING]: arguments wait_for, match, rpcs are not supported when using
+transport=cli
