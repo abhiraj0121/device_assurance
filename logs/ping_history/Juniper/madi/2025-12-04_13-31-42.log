@@ -1,0 +1,16 @@
+
+PLAY [Test ICMP Ping] **********************************************************
+
+TASK [ICMP ping via shell] *****************************************************
+changed: [madi]
+
+TASK [debug] *******************************************************************
+ok: [madi] => {
+    "ping_output.stdout": "PING 10.70.27.1 (10.70.27.1) 56(84) bytes of data.\n64 bytes from 10.70.27.1: icmp_seq=1 ttl=62 time=14.0 ms\n64 bytes from 10.70.27.1: icmp_seq=2 ttl=62 time=10.3 ms\n64 bytes from 10.70.27.1: icmp_seq=3 ttl=62 time=12.0 ms\n\n--- 10.70.27.1 ping statistics ---\n3 packets transmitted, 3 received, 0% packet loss, time 2002ms\nrtt min/avg/max/mdev = 10.314/12.112/14.015/1.512 ms"
+}
+
+PLAY RECAP *********************************************************************
+madi                       : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko

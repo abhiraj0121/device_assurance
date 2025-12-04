@@ -1,0 +1,11 @@
+
+PLAY [Backup Cisco Running Config via SSH CLI] *********************************
+
+TASK [Get running configuration] ***********************************************
+fatal: [achham]: FAILED! => {"changed": false, "msg": "[Errno None] Unable to connect to port 22 on 10.70.160.1"}
+
+PLAY RECAP *********************************************************************
+achham                     : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko

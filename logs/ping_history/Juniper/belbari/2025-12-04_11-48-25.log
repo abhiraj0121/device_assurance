@@ -1,0 +1,16 @@
+
+PLAY [Test ICMP Ping] **********************************************************
+
+TASK [ICMP ping via shell] *****************************************************
+changed: [belbari]
+
+TASK [debug] *******************************************************************
+ok: [belbari] => {
+    "ping_output.stdout": "PING 10.70.45.1 (10.70.45.1) 56(84) bytes of data.\n64 bytes from 10.70.45.1: icmp_seq=1 ttl=62 time=6.67 ms\n64 bytes from 10.70.45.1: icmp_seq=2 ttl=62 time=5.72 ms\n64 bytes from 10.70.45.1: icmp_seq=3 ttl=62 time=92.1 ms\n\n--- 10.70.45.1 ping statistics ---\n3 packets transmitted, 3 received, 0% packet loss, time 2003ms\nrtt min/avg/max/mdev = 5.719/34.830/92.099/40.496 ms"
+}
+
+PLAY RECAP *********************************************************************
+belbari                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko

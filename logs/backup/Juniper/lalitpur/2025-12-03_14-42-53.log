@@ -1,0 +1,10 @@
+
+PLAY [Backup Juniper Running Config (NETCONF plugin)] **************************
+
+TASK [Retrieve running configuration (set format)] *****************************
+fatal: [lalitpur]: FAILED! => {"changed": false, "msg": "Display format 'set' is not supported by remote device."}
+
+PLAY RECAP *********************************************************************
+lalitpur                   : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+

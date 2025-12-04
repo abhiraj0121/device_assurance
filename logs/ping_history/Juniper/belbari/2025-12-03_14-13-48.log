@@ -1,0 +1,10 @@
+
+PLAY [Test ICMP Ping] **********************************************************
+
+TASK [ICMP ping via shell] *****************************************************
+fatal: [belbari]: FAILED! => {"msg": "the connection plugin 'junos_cli' was not found"}
+
+PLAY RECAP *********************************************************************
+belbari                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+

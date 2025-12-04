@@ -1,0 +1,313 @@
+## Last commit: 2025-12-03 10:45:01 UTC by root
+version 20.2R3-S2.5;
+system {
+    host-name LTR-RTR;
+    root-authentication {
+        encrypted-password "$6$v0fpJ/k0$fXUIa/qkjK473A8yJsIAobD2ibJzR6K84t0Ub8aX2/NZ.gYksIbuI5Ue.cWnlfP4v/YiMSDVvI3r6MpRvVAuI1"; ## SECRET-DATA
+    }
+    services {
+        ssh {
+            root-login allow;
+        }
+        netconf {
+            ssh;
+            rfc-compliant;
+        }
+        dhcp-local-server {
+            group jdhcp-group {
+                interface irb.0;
+            }
+        }
+        web-management {
+            https {
+                system-generated-certificate;
+                interface [ ge-0/0/1.0 ge-0/0/2.0 ge-0/0/3.0 ];
+            }
+        }
+    }
+    name-server {
+        8.8.8.8;
+        8.8.4.4;
+    }
+    syslog {
+        archive size 100k files 3;
+        user * {
+            any emergency;
+        }
+        file messages {
+            any notice;
+            authorization info;
+        }
+        file interactive-commands {
+            interactive-commands any;
+        }
+    }
+    max-configurations-on-flash 5;
+    max-configuration-rollbacks 5;
+    license {
+        autoupdate {
+            url https://ae1.juniper.net/junos/key_retrieval;
+        }
+    }
+    phone-home {
+        server https://redirect.juniper.net;
+        rfc-compliant;
+    }
+}
+security {
+    screen {
+        ids-option untrust-screen {
+            icmp {
+                ping-death;
+            }
+            ip {
+                source-route-option;
+                tear-drop;
+            }
+            tcp {
+                syn-flood {
+                    alarm-threshold 1024;
+                    attack-threshold 200;
+                    source-threshold 1024;
+                    destination-threshold 2048;
+                    timeout 20;
+                }
+                land;
+            }
+        }
+    }
+    nat {
+        source {
+            rule-set trust-to-untrust {
+                from zone trust;
+                to zone untrust;
+                rule source-nat-rule {
+                    match {
+                        source-address 0.0.0.0/0;
+                    }
+                    then {
+                        source-nat {
+                            interface;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    policies {
+        from-zone trust to-zone trust {
+            policy trust-to-trust {
+                match {
+                    source-address any;
+                    destination-address any;
+                    application any;
+                }
+                then {
+                    permit;
+                }
+            }
+        }
+        from-zone trust to-zone untrust {
+            policy trust-to-untrust {
+                match {
+                    source-address any;
+                    destination-address any;
+                    application any;
+                }
+                then {
+                    permit;
+                }
+            }
+        }
+        from-zone untrust to-zone trust {
+            policy untrust-to-trust {
+                match {
+                    source-address any;
+                    destination-address any;
+                    application any;
+                }
+                then {
+                    permit;
+                }
+            }
+        }
+    }
+    zones {
+        security-zone trust {
+            host-inbound-traffic {
+                system-services {
+                    all;
+                }
+                protocols {
+                    all;
+                }
+            }
+            interfaces {
+                irb.0;
+                ge-0/0/1.0;
+            }
+        }
+        security-zone untrust {
+            screen untrust-screen;
+            host-inbound-traffic {
+                system-services {
+                    ping;
+                    ssh;
+                    https;
+                }
+                protocols {
+                    all;
+                }
+            }
+            interfaces {
+                ge-0/0/0.0 {
+                    host-inbound-traffic {
+                        system-services {
+                            dhcp;
+                            tftp;
+                            https;
+                        }
+                    }
+                }
+                ge-0/0/7.0 {
+                    host-inbound-traffic {
+                        system-services {
+                            dhcp;
+                            tftp;
+                        }
+                    }
+                }
+                ge-0/0/2.0;
+                ge-0/0/3.0;
+            }
+        }
+    }
+}
+interfaces {
+    ge-0/0/0 {
+        unit 0 {
+            family inet {
+                dhcp {
+                    vendor-id Juniper-srx300;
+                }
+            }
+        }
+    }
+    ge-0/0/1 {
+        unit 0 {
+            family inet {
+                address 10.70.22.1/24;
+            }
+        }
+    }
+    ge-0/0/2 {
+        unit 0 {
+            family inet {
+                address 10.70.150.22/24;
+            }
+        }
+    }
+    ge-0/0/3 {
+        unit 0 {
+            family inet {
+                address 10.70.151.22/24;
+            }
+        }
+    }
+    ge-0/0/4 {
+        unit 0 {
+            family ethernet-switching {
+                vlan {
+                    members vlan-trust;
+                }
+            }
+        }
+    }
+    ge-0/0/5 {
+        unit 0 {
+            family ethernet-switching {
+                vlan {
+                    members vlan-trust;
+                }
+            }
+        }
+    }
+    ge-0/0/6 {
+        unit 0 {
+            family ethernet-switching {
+                vlan {
+                    members vlan-trust;
+                }
+            }
+        }
+    }
+    ge-0/0/7 {
+        unit 0 {
+            family inet {
+                dhcp {
+                    vendor-id Juniper-srx300;
+                }
+            }
+        }
+    }
+    irb {
+        unit 0 {
+            family inet {
+                address 192.168.1.1/24;
+            }
+        }
+    }
+}
+snmp {
+    location Minbhawan,kathmandu;
+    contact "Survey Department";
+    community juniper_fw {
+        authorization read-only;
+        clients {
+            10.71.6.163/32;
+        }
+    }
+}
+access {
+    address-assignment {
+        pool junosDHCPPool {
+            family inet {
+                network 192.168.1.0/24;
+                range junosRange {
+                    low 192.168.1.2;
+                    high 192.168.1.254;
+                }
+                dhcp-attributes {
+                    router {
+                        192.168.1.1;
+                    }
+                    propagate-settings ge-0/0/0.0;
+                }
+            }
+        }
+    }
+}
+vlans {
+    vlan-trust {
+        vlan-id 3;
+        l3-interface irb.0;
+    }
+}
+protocols {
+    l2-learning {
+        global-mode switching;
+    }
+    rstp {
+        interface all;
+    }
+}
+routing-options {
+    static {
+        route 0.0.0.0/0 {
+            next-hop 10.70.150.1;
+            qualified-next-hop 10.70.151.1 {
+                preference 25;
+            }
+        }
+    }
+}

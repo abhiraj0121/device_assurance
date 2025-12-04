@@ -1,0 +1,96 @@
+set version 20.2R3-S2.5
+set system host-name MADI-RTR
+set system root-authentication encrypted-password "$6$HcWqKpEh$0sHA3HrnaoMd5UmgahKGCQzYMbboboNYveTM4FRIsl7EXy59Dpu4RqWQlJjiduPiLwMVkv8CZutyTsc79RvX/."
+set system login user admin uid 1000
+set system login user admin class super-user
+set system login user admin authentication encrypted-password "$6$5IXWC5cH$qH2wv23awMgWOZhndFgzm6D.NSr8UM8uCQsD9dB6jaCKy4Qs5C61eqR8u.ykWaMUX02RsSjAWhoy6pDOjQj2p1"
+set system login user admin authentication ssh-rsa "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDEdvm4y+xzLJCYJ8rDKCWGEjg65xm3bWR89R5WiI2cTIFtbf6zlGY0dGKV6jcu9FUKoSP7dABuQrmf/qRztpe4xKcbVEYNkEEhEy8fFgDBl0VB1NW3cJulq01y5Z9Zp9zHWB8Usn/6GW9lBt2gB4zyo4JwfxWMvsHru+rB2blDlAnihPaZdnPkTKMtuUmBUIT3AUDdGHcbB0RPac9mBPqp0EZT2RWDBJvOX9wLjNHrm19vaN/Yx8QbiXf+ivXT5p3YyYkSmOQplLD6W8xZTMY92BAhpx+zKOivTUZUHMS6bmlL/xk3hzYYVECu3ZU3NyG8gIwcZrNq9rvy5rLwPHEwQg1gcZTtvys8axQ4x432uacQGZK0SvfftE4Dpr+qG1+MJ4JdPQYyRLB/t/IZFesPXJ/nKBb4iGWHTh+p5hJx2HGc2pRuUkNzfMo44n0F4h7wYP2Qz2H6JDd2em0o4QKxHYbPh9n+RYW/O9c7cV4eU+0CFY5tjdUlZPJ1djMc1/k= aviraaz@aviraaz-office"
+set system services ssh root-login allow
+set system services telnet
+set system services netconf ssh
+set system services dhcp-local-server group jdhcp-group interface irb.0
+set system services web-management https system-generated-certificate
+set system services web-management https interface ge-0/0/1.0
+set system services web-management https interface ge-0/0/2.0
+set system services web-management https interface ge-0/0/3.0
+set system domain-name dos.gov.np
+set system name-server 8.8.8.8
+set system name-server 8.8.4.4
+set system syslog archive size 100k
+set system syslog archive files 3
+set system syslog user * any emergency
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set system syslog file interactive-commands interactive-commands any
+set system max-configurations-on-flash 5
+set system max-configuration-rollbacks 5
+set system license autoupdate url https://ae1.juniper.net/junos/key_retrieval
+set system phone-home server https://redirect.juniper.net
+set system phone-home rfc-compliant
+set security screen ids-option untrust-screen icmp ping-death
+set security screen ids-option untrust-screen ip source-route-option
+set security screen ids-option untrust-screen ip tear-drop
+set security screen ids-option untrust-screen tcp syn-flood alarm-threshold 1024
+set security screen ids-option untrust-screen tcp syn-flood attack-threshold 200
+set security screen ids-option untrust-screen tcp syn-flood source-threshold 1024
+set security screen ids-option untrust-screen tcp syn-flood destination-threshold 2048
+set security screen ids-option untrust-screen tcp syn-flood timeout 20
+set security screen ids-option untrust-screen tcp land
+set security nat source rule-set trust-to-untrust from zone trust
+set security nat source rule-set trust-to-untrust to zone untrust
+set security nat source rule-set trust-to-untrust rule source-nat-rule match source-address 0.0.0.0/0
+set security nat source rule-set trust-to-untrust rule source-nat-rule then source-nat interface
+set security policies from-zone trust to-zone trust policy trust-to-trust match source-address any
+set security policies from-zone trust to-zone trust policy trust-to-trust match destination-address any
+set security policies from-zone trust to-zone trust policy trust-to-trust match application any
+set security policies from-zone trust to-zone trust policy trust-to-trust then permit
+set security policies from-zone trust to-zone untrust policy trust-to-untrust match source-address any
+set security policies from-zone trust to-zone untrust policy trust-to-untrust match destination-address any
+set security policies from-zone trust to-zone untrust policy trust-to-untrust match application any
+set security policies from-zone trust to-zone untrust policy trust-to-untrust then permit
+set security policies from-zone untrust to-zone trust policy untrust-to-trust match source-address any
+set security policies from-zone untrust to-zone trust policy untrust-to-trust match destination-address any
+set security policies from-zone untrust to-zone trust policy untrust-to-trust match application any
+set security policies from-zone untrust to-zone trust policy untrust-to-trust then permit
+set security zones security-zone trust host-inbound-traffic system-services all
+set security zones security-zone trust host-inbound-traffic protocols all
+set security zones security-zone trust interfaces irb.0
+set security zones security-zone trust interfaces ge-0/0/1.0
+set security zones security-zone untrust screen untrust-screen
+set security zones security-zone untrust host-inbound-traffic system-services telnet
+set security zones security-zone untrust host-inbound-traffic system-services ssh
+set security zones security-zone untrust host-inbound-traffic system-services https
+set security zones security-zone untrust host-inbound-traffic system-services ping
+set security zones security-zone untrust host-inbound-traffic protocols all
+set security zones security-zone untrust interfaces ge-0/0/0.0 host-inbound-traffic system-services dhcp
+set security zones security-zone untrust interfaces ge-0/0/0.0 host-inbound-traffic system-services tftp
+set security zones security-zone untrust interfaces ge-0/0/0.0 host-inbound-traffic system-services https
+set security zones security-zone untrust interfaces ge-0/0/7.0 host-inbound-traffic system-services dhcp
+set security zones security-zone untrust interfaces ge-0/0/7.0 host-inbound-traffic system-services tftp
+set security zones security-zone untrust interfaces ge-0/0/2.0
+set security zones security-zone untrust interfaces ge-0/0/3.0
+set interfaces ge-0/0/0 unit 0 family inet dhcp vendor-id Juniper-srx300
+set interfaces ge-0/0/1 unit 0 family inet address 10.70.27.1/24
+set interfaces ge-0/0/2 unit 0 family inet address 10.70.150.27/24
+set interfaces ge-0/0/3 unit 0 family inet address 10.70.151.27/24
+set interfaces ge-0/0/4 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces ge-0/0/5 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces ge-0/0/6 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces ge-0/0/7 unit 0 family inet dhcp vendor-id Juniper-srx300
+set interfaces irb unit 0 family inet address 192.168.1.1/24
+set snmp location Minbhawan,kathmandu
+set snmp contact "Survey Department"
+set snmp community juniper_fw authorization read-only
+set snmp community juniper_fw clients 10.71.6.163/24
+set snmp community juniper_fw clients 10.71.6.163/32
+set access address-assignment pool junosDHCPPool family inet network 192.168.1.0/24
+set access address-assignment pool junosDHCPPool family inet range junosRange low 192.168.1.2
+set access address-assignment pool junosDHCPPool family inet range junosRange high 192.168.1.254
+set access address-assignment pool junosDHCPPool family inet dhcp-attributes router 192.168.1.1
+set access address-assignment pool junosDHCPPool family inet dhcp-attributes propagate-settings ge-0/0/0.0
+set vlans vlan-trust vlan-id 3
+set vlans vlan-trust l3-interface irb.0
+set protocols l2-learning global-mode switching
+set protocols rstp interface all
+set routing-options static route 0.0.0.0/0 next-hop 10.70.150.1
+set routing-options static route 0.0.0.0/0 qualified-next-hop 10.70.151.1 preference 25

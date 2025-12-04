@@ -1,0 +1,32 @@
+---
+- name: Backup Cisco Running Config via SSH CLI
+  hosts: all
+  gather_facts: no
+
+  vars:
+    ansible_connection: ansible.netcommon.network_cli
+    ansible_network_os: cisco.ios.ios
+    base_config_dir: "/home/abhiraj/Projects/device_assurance/ansible/configs"
+    timestamp: "{{ lookup('pipe', 'date +%Y-%m-%d_%H-%M-%S') }}"
+
+  tasks:
+
+    - name: Get running configuration
+      cisco.ios.ios_command:
+        commands:
+          - "show running-config"
+      register: cisco_config
+
+    - name: Ensure device config directory exists
+      file:
+        path: "{{ base_config_dir }}/Cisco/{{ inventory_hostname }}"
+        state: directory
+        mode: '0755'
+
+    - name: Save configuration to timestamped file
+      copy:
+        content: "{{ cisco_config.stdout[0] }}"
+        dest: "{{ base_config_dir }}/Cisco/{{ inventory_hostname }}/{{ timestamp }}.cfg"
+
+    - debug:
+        msg: "Backup saved for Cisco device {{ inventory_hostname }}"
