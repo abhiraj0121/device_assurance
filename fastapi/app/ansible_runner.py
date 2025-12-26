@@ -28,10 +28,9 @@ VENDOR_CONFIG = {
         "ansible_password": "Survey@1255"
     },
     "Cisco": {
-        "ansible_connection": "network_cli",
-        "ansible_network_os": "ios",
-        "ansible_user": "admin",
-        "ansible_password": "Survey@1244"
+        "ansible_user": "abhiraj.wagle",
+        "ansible_password": "Surevey@1266",
+        "ansible_port": "23",
     },
     "Sophos": {
         "ansible_connection": "ssh",   # example
