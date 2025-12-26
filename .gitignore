@@ -1,0 +1,78 @@
+# =========================
+# Python / FastAPI
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+
+# Virtualenvs
+.venv/
+venv/
+env/
+ENV/
+pip-wheel-metadata/
+*.egg-info/
+dist/
+build/
+
+# Env / secrets
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.p12
+*.pfx
+
+# =========================
+# IDE / OS
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# =========================
+# Ansible artifacts
+# =========================
+*.retry
+.ansible/
+ansible_collections/**/.cache/
+ansible_collections/**/__pycache__/
+
+# If you ever use Ansible Vault files (optional)
+*.vault
+vault.yml
+vault.yaml
+group_vars/*vault*
+host_vars/*vault*
+
+# =========================
+# Project generated outputs
+# =========================
+# All runtime logs (your runner saves logs under ROOT/logs/...)
+logs/
+*.log
+
+# All pulled configs/backups (your playbooks write here)
+ansible/configs/
+# If configs path also exists at project root (some setups do)
+configs/
+
+# Optional: ignore any local sqlite/db files if you add later
+*.sqlite3
+*.db
+
+# =========================
+# Keep empty directories (optional)
+# =========================
+# If you add .gitkeep files to keep empty folders, allow them:
+!logs/.gitkeep
+!ansible/configs/.gitkeep
