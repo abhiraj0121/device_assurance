@@ -1,0 +1,39 @@
+---
+- name: Restart Juniper device (Junos) via SSH (v4 - prompt/answer)
+  hosts: all
+  gather_facts: no
+
+  vars:
+    ansible_connection: ansible.netcommon.network_cli
+    ansible_network_os: junipernetworks.junos.junos
+
+    # Give it a bit more time than default 30s
+    ansible_command_timeout: 60
+
+  tasks:
+    - name: Show system uptime before reboot (optional)
+      junipernetworks.junos.junos_command:
+        commands:
+          - "show system uptime"
+      register: uptime_before
+      ignore_errors: true
+
+    - name: Reboot Juniper (request system reboot at now) + confirm yes
+      ansible.netcommon.cli_command:
+        command: "request system reboot at now"
+        prompt:
+          # Match common Junos confirmation prompts (regex)
+          - "(?i)Reboot the system.*\\[yes,no\\].*"
+          - "(?i)Reboot.*\\[yes,no\\].*"
+        answer:
+          - "yes"
+      register: reboot_out
+      ignore_errors: true
+
+    - name: Print outputs (for logs)
+      debug:
+        msg:
+          - "Uptime before reboot:"
+          - "{{ (uptime_before.stdout[0] if uptime_before and uptime_before.stdout else '') }}"
+          - "Reboot CLI output (may disconnect/timeout after accept):"
+          - "{{ reboot_out }}"

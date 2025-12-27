@@ -1,10 +1,14 @@
-- name: Test ICMP Ping
+---
+- name: Test ICMP Ping (from controller)
   hosts: all
   gather_facts: false
+  connection: local
+
   tasks:
-    - name: ICMP ping via shell
-      ansible.builtin.shell: "ping -c 3 {{ ansible_host }}"
+    - name: ICMP ping from controller to device IP
+      ansible.builtin.command: "ping -c 3 {{ ansible_host }}"
       register: ping_output
+      changed_when: false
 
     - debug:
         var: ping_output.stdout

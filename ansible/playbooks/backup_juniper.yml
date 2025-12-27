@@ -7,6 +7,7 @@
     ansible_connection: ansible.netcommon.network_cli
     ansible_network_os: junipernetworks.junos.junos
     base_config_dir: "/home/abhiraj/Projects/device_assurance/ansible/configs"
+    vendor_dir: "Juniper"
     timestamp: "{{ lookup('pipe', 'date +%Y-%m-%d_%H-%M-%S') }}"
 
   tasks:
@@ -20,14 +21,14 @@
 
     - name: Ensure device config directory exists
       file:
-        path: "{{ base_config_dir }}/{{ inventory_hostname }}"
+        path: "{{ base_config_dir }}/{{ vendor_dir }}/{{ inventory_hostname }}"
         state: directory
         mode: '0755'
 
     - name: Save configuration to timestamped file
       copy:
         content: "{{ config_output.stdout[0] }}"
-        dest: "{{ base_config_dir }}/{{ inventory_hostname }}/{{ timestamp }}.set"
+        dest: "{{ base_config_dir }}/{{ vendor_dir }}/{{ inventory_hostname }}/{{ timestamp }}.set"
 
     - debug:
         msg: "Backup saved for {{ inventory_hostname }} at {{ timestamp }}"

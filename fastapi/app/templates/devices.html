@@ -102,6 +102,93 @@ async function runBackup(deviceId) {
     }
 }
 
+async function runRestart(deviceId) {
+    // consistent with backup pattern
+    const url = `/restart/run/${deviceId}/`;
+
+    // Safety prompt (restart is disruptive)
+    const ok = confirm("Are you sure you want to restart this device?");
+    if (!ok) return;
+
+    const box = document.getElementById(`result-${deviceId}`);
+    if (!box) return;
+
+    // Show loading state immediately
+    box.classList.remove("hidden");
+    box.classList.remove("text-green-700", "text-red-700");
+    box.innerHTML = `
+        <div class="p-3 bg-gray-100 rounded border relative">
+            <div class="flex justify-between items-center mb-2">
+                <strong>⏳ Restart requested...</strong>
+                <button
+                    onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
+                    class="text-gray-500 hover:text-black ml-2"
+                    style="font-size: 16px; font-weight: bold; line-height: 12px;"
+                >×</button>
+            </div>
+            <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">Please wait...</pre>
+        </div>
+    `;
+
+    try {
+        const res = await fetch(url, { method: "POST" });
+        const data = await res.json();
+
+        const isSuccess = data.status === "success";
+        const statusLabel = isSuccess ? "✔ Restart Scheduled" : "✘ Restart Failed";
+
+        box.classList.toggle("text-green-700", isSuccess);
+        box.classList.toggle("text-red-700", !isSuccess);
+
+        const closeButton = `
+            <button
+                onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
+                class="text-gray-500 hover:text-black ml-2"
+                style="font-size: 16px; font-weight: bold; line-height: 12px;"
+            >×</button>
+        `;
+
+        const output = data.output || "";
+        const logFile = data.logfile || "";
+
+        box.innerHTML = `
+            <div class="p-3 bg-gray-100 rounded border relative">
+                <div class="flex justify-between items-center mb-2">
+                    <strong>${statusLabel}</strong>
+                    ${closeButton}
+                </div>
+
+                <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">
+                    Output:
+                    ${output}
+
+                    Log:
+                    ${logFile}
+                </pre>
+            </div>
+        `;
+
+    } catch (err) {
+        console.error("Restart request error:", err);
+        box.classList.add("text-red-700");
+        box.innerHTML = `
+            <div class="p-3 bg-gray-100 rounded border relative">
+                <div class="flex justify-between items-center mb-2">
+                    <strong>✘ Restart Failed</strong>
+                    <button
+                        onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
+                        class="text-gray-500 hover:text-black ml-2"
+                        style="font-size: 16px; font-weight: bold; line-height: 12px;"
+                    >×</button>
+                </div>
+                <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">
+                    ${err}
+                </pre>
+            </div>
+        `;
+    }
+}
+
 </script>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -164,10 +251,16 @@ async function runBackup(deviceId) {
                                 Ping
                             </button>
 
+                            <button onclick="runRestart('{{ d.id }}')"
+                                    class="bg-green-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                                Restart
+                            </button>
+
                             <button onclick="runBackup('{{ d.id }}')"
                                     class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
                                 Backup
                             </button>
+
                         </div>
                     </div>
 
