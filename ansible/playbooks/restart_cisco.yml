@@ -1,0 +1,33 @@
+---
+- name: Restart Cisco (scheduled reload) via TELNET
+  hosts: all
+  gather_facts: no
+  connection: local
+
+  vars:
+    target_host: "{{ ansible_host | default(ip | default(inventory_hostname)) }}"
+    target_port: "{{ ansible_port | default(23) }}"
+
+  tasks:
+    - name: Schedule reload in 1 minute (avoids telnet hanging)
+      ansible.netcommon.telnet:
+        host: "{{ target_host }}"
+        port: "{{ target_port }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_password }}"
+        login_prompt: "Username:"
+        password_prompt: "Password:"
+        prompts:
+          - "\\[confirm\\]"
+          - "\\S+[>#]\\s*$"
+        timeout: 25
+        pause: 1
+        command:
+          - "terminal length 0"
+          - "write memory"
+          - "reload in 1"
+          - ""   # confirm (press Enter)
+      register: telnet_out
+
+    - debug:
+        var: telnet_out.stdout

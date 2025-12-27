@@ -1,32 +1,75 @@
 ---
-- name: Backup Cisco Running Config via SSH CLI
+- name: Backup Cisco Running Config via TELNET (v5.1 - chop + de-escape \\n)
   hosts: all
   gather_facts: no
+  connection: local
 
   vars:
-    ansible_connection: ansible.netcommon.network_cli
-    ansible_network_os: cisco.ios.ios
     base_config_dir: "/home/abhiraj/Projects/device_assurance/ansible/configs"
+    vendor_dir: "Cisco"
     timestamp: "{{ lookup('pipe', 'date +%Y-%m-%d_%H-%M-%S') }}"
+    target_host: "{{ ansible_host | default(ip | default(inventory_hostname)) }}"
+    target_port: "{{ ansible_port | default(23) }}"
+
+    strip_head_lines: 10
 
   tasks:
-
-    - name: Get running configuration
-      cisco.ios.ios_command:
-        commands:
+    - name: Fetch running-config over telnet
+      ansible.netcommon.telnet:
+        host: "{{ target_host }}"
+        port: "{{ target_port }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_password }}"
+        login_prompt: "Username:"
+        password_prompt: "Password:"
+        prompts:
+          - "\\S+[>#]\\s*$"
+        timeout: 10
+        pause: 1
+        command:
+          - "terminal length 0"
           - "show running-config"
-      register: cisco_config
+      register: telnet_out
+
+    - name: Normalize output (CR/LF -> LF) + convert literal \\n to real newlines
+      set_fact:
+        raw_out: >-
+          {{
+            (telnet_out.stdout | default(''))
+            | replace('\r\n', '\n')
+            | replace('\r', '\n')
+            | replace('\\\\n', '\n')
+          }}
+
+    - name: Chop first N lines (simple)
+      set_fact:
+        chopped_out: "{{ raw_out.splitlines()[strip_head_lines:] | join('\n') }}"
+
+    - name: Ensure chopped_out has real newlines (convert any literal \\n)
+      set_fact:
+        chopped_out: >-
+          {{
+            chopped_out
+            | replace('\\\\n', '\n')
+            | replace('\\\\r', '\n')
+          }}
+
+    - name: If chop produced empty, fallback to raw_out
+      set_fact:
+        chopped_out: "{{ raw_out }}"
+      when: (chopped_out | trim | length) == 0
 
     - name: Ensure device config directory exists
       file:
-        path: "{{ base_config_dir }}/Cisco/{{ inventory_hostname }}"
+        path: "{{ base_config_dir }}/{{ vendor_dir }}/{{ inventory_hostname }}"
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Save configuration to timestamped file
       copy:
-        content: "{{ cisco_config.stdout[0] }}"
-        dest: "{{ base_config_dir }}/Cisco/{{ inventory_hostname }}/{{ timestamp }}.cfg"
+        content: "{{ chopped_out }}\n"
+        dest: "{{ base_config_dir }}/{{ vendor_dir }}/{{ inventory_hostname }}/{{ timestamp }}.cfg"
+        mode: "0644"
 
     - debug:
-        msg: "Backup saved for Cisco device {{ inventory_hostname }}"
+        msg: "Backup saved for {{ inventory_hostname }} at {{ timestamp }}"
