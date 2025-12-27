@@ -17,12 +17,21 @@ PLAYBOOKS = ANSIBLE_DIR / "playbooks"
 INVENTORY = ANSIBLE_DIR / "inventories" / "devices.yml"
 
 # Playbooks
+# Generic playbook for ping test
 PING_PLAYBOOK = PLAYBOOKS / "ping_test.yml"
+
+# playbooks for backup
 JUNIPER_BACKUP = PLAYBOOKS / "backup_juniper.yml"
 CISCO_BACKUP = PLAYBOOKS / "backup_cisco.yml"
 PALO_BACKUP = PLAYBOOKS / "backup_paloalto.yml"
+
+# playbooks for restart
 CISCO_RESTART = PLAYBOOKS / "restart_cisco.yml"
 JUNIPER_RESTART = PLAYBOOKS / "restart_juniper.yml"
+
+# playbooks for uptime
+JUNIPER_UPTIME = PLAYBOOKS / "uptime_juniper.yml"
+CISCO_UPTIME = PLAYBOOKS / "uptime_cisco.yml"
 # Add more playbooks as needed
 
 VENDOR_CONFIG = {

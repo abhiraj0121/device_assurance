@@ -1,0 +1,44 @@
+---
+- name: Cisco uptime
+  hosts: all
+  gather_facts: no
+  connection: local
+
+  vars:
+    target_host: "{{ ansible_host | default(ip | default(inventory_hostname)) }}"
+    target_port: "{{ ansible_port | default(23) }}"
+
+  tasks:
+    - name: Read uptime line
+      ansible.netcommon.telnet:
+        host: "{{ target_host }}"
+        port: "{{ target_port }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_password }}"
+        login_prompt: "Username:"
+        password_prompt: "Password:"
+        prompts:
+          - "\\S+[>#]\\s*$"
+        timeout: 25
+        pause: 1
+        command:
+          - "terminal length 0"
+          - "show version | include uptime"
+      register: telnet_out
+
+    - name: Extract uptime line (simple contains - safest)
+      set_fact:
+        uptime_line: >-
+          {%- set ns = namespace(found='') -%}
+          {%- for l in (telnet_out.stdout_lines | default([])) -%}
+            {%- set s = (l | replace('\r', '') | trim) -%}
+            {%- set sl = (s | lower) -%}
+            {%- if ns.found == '' and ('uptime is' in sl) and ('show version' not in sl) -%}
+              {%- set ns.found = s -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {{ ns.found }}
+
+    - name: Emit uptime marker
+      debug:
+        msg: "UPTIME: {{ uptime_line if uptime_line else 'uptime_not_found' }}"

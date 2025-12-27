@@ -3,6 +3,20 @@
 {% set title = "Devices" %}
 
 <script>
+function autoHideResult(deviceId, ms = 10000) {
+  const box = document.getElementById(`result-${deviceId}`);
+  if (!box) return;
+
+  // cancel any previous timer for this device
+  if (box._hideTimer) clearTimeout(box._hideTimer);
+
+  box._hideTimer = setTimeout(() => {
+    box.classList.add("hidden");
+    // optional: clear content too
+    // box.innerHTML = "";
+  }, ms);
+}
+
 async function runPing(deviceId) {
     const url = `/ping/${deviceId}/`;
 
@@ -48,6 +62,7 @@ async function runPing(deviceId) {
                 </pre>
             </div>
         `;
+        autoHideResult(deviceId,10000);
 
     } catch (err) {
         console.error("Ping request error:", err);
@@ -96,6 +111,7 @@ async function runBackup(deviceId) {
                 </pre>
             </div>
         `;
+        autoHideResult(deviceId,10000);
 
     } catch (err) {
         console.error("Backup request error:", err);
@@ -103,90 +119,90 @@ async function runBackup(deviceId) {
 }
 
 async function runRestart(deviceId) {
-    // consistent with backup pattern
-    const url = `/restart/run/${deviceId}/`;
+  // 1) get uptime first
+  let uptimeText = null;
 
-    // Safety prompt (restart is disruptive)
-    const ok = confirm("Are you sure you want to restart this device?");
-    if (!ok) return;
+  try {
+    const ures = await fetch(`/restart/uptime/${deviceId}/`, { method: "POST" });
+    const udata = await ures.json();
+    console.log("uptime api:", udata); // TEMP: debug
 
-    const box = document.getElementById(`result-${deviceId}`);
-    if (!box) return;
+    if (udata && udata.uptime) {
+    uptimeText = udata.uptime; // use it even if status=fail
+    }
+  } catch (e) {
+    console.warn("Uptime fetch failed:", e);
+  }
 
-    // Show loading state immediately
-    box.classList.remove("hidden");
-    box.classList.remove("text-green-700", "text-red-700");
-    box.innerHTML = `
-        <div class="p-3 bg-gray-100 rounded border relative">
-            <div class="flex justify-between items-center mb-2">
-                <strong>⏳ Restart requested...</strong>
-                <button
-                    onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
-                    class="text-gray-500 hover:text-black ml-2"
-                    style="font-size: 16px; font-weight: bold; line-height: 12px;"
-                >×</button>
-            </div>
-            <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">Please wait...</pre>
-        </div>
+  // 2) confirm with uptime
+  const msg = uptimeText
+    ? `Device uptime:\n${uptimeText}\n\nAre you sure you want to restart this device?`
+    : "Are you sure you want to restart this device?";
+
+  const ok = confirm(msg);
+  if (!ok) return;
+
+  // 3) run restart
+  const url = `/restart/run/${deviceId}/`;
+
+  const box = document.getElementById(`result-${deviceId}`);
+  if (!box) return;
+
+  box.classList.remove("hidden");
+  box.classList.remove("text-green-700", "text-red-700");
+  box.innerHTML = `
+    <div class="p-3 bg-gray-100 rounded border relative">
+      <div class="flex justify-between items-center mb-2">
+        <strong>⏳ Restart requested...</strong>
+        <button
+          onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
+          class="text-gray-500 hover:text-black ml-2"
+          style="font-size: 16px; font-weight: bold; line-height: 12px;"
+        >×</button>
+      </div>
+      <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">Please wait...</pre>
+    </div>
+  `;
+
+  try {
+    const res = await fetch(url, { method: "POST" });
+    const data = await res.json();
+
+    const isSuccess = data.status === "success";
+    const statusLabel = isSuccess ? "✔ Restart Triggered" : "✘ Restart Failed";
+
+    box.classList.toggle("text-green-700", isSuccess);
+    box.classList.toggle("text-red-700", !isSuccess);
+
+    const closeButton = `
+      <button
+        onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
+        class="text-gray-500 hover:text-black ml-2"
+        style="font-size: 16px; font-weight: bold; line-height: 12px;"
+      >×</button>
     `;
 
-    try {
-        const res = await fetch(url, { method: "POST" });
-        const data = await res.json();
+    const output = data.output || "";
+    const logFile = data.logfile || "";
 
-        const isSuccess = data.status === "success";
-        const statusLabel = isSuccess ? "✔ Restart Scheduled" : "✘ Restart Failed";
+    box.innerHTML = `
+      <div class="p-3 bg-gray-100 rounded border relative">
+        <div class="flex justify-between items-center mb-2">
+          <strong>${statusLabel}</strong>
+          ${closeButton}
+        </div>
+        <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">
+            ${output}
 
-        box.classList.toggle("text-green-700", isSuccess);
-        box.classList.toggle("text-red-700", !isSuccess);
-
-        const closeButton = `
-            <button
-                onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
-                class="text-gray-500 hover:text-black ml-2"
-                style="font-size: 16px; font-weight: bold; line-height: 12px;"
-            >×</button>
-        `;
-
-        const output = data.output || "";
-        const logFile = data.logfile || "";
-
-        box.innerHTML = `
-            <div class="p-3 bg-gray-100 rounded border relative">
-                <div class="flex justify-between items-center mb-2">
-                    <strong>${statusLabel}</strong>
-                    ${closeButton}
-                </div>
-
-                <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">
-                    Output:
-                    ${output}
-
-                    Log:
-                    ${logFile}
-                </pre>
-            </div>
-        `;
-
-    } catch (err) {
-        console.error("Restart request error:", err);
-        box.classList.add("text-red-700");
-        box.innerHTML = `
-            <div class="p-3 bg-gray-100 rounded border relative">
-                <div class="flex justify-between items-center mb-2">
-                    <strong>✘ Restart Failed</strong>
-                    <button
-                        onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
-                        class="text-gray-500 hover:text-black ml-2"
-                        style="font-size: 16px; font-weight: bold; line-height: 12px;"
-                    >×</button>
-                </div>
-                <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">
-                    ${err}
-                </pre>
-            </div>
-        `;
-    }
+            Log:
+            ${logFile}
+        </pre>
+      </div>
+    `;
+    autoHideResult(deviceId,15000);
+  } catch (err) {
+    console.error("Restart request error:", err);
+  }
 }
 
 </script>
