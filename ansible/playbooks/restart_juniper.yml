@@ -11,13 +11,6 @@
     ansible_command_timeout: 60
 
   tasks:
-    - name: Show system uptime before reboot (optional)
-      junipernetworks.junos.junos_command:
-        commands:
-          - "show system uptime"
-      register: uptime_before
-      ignore_errors: true
-
     - name: Reboot Juniper (request system reboot at now) + confirm yes
       ansible.netcommon.cli_command:
         command: "request system reboot at now"
@@ -33,7 +26,5 @@
     - name: Print outputs (for logs)
       debug:
         msg:
-          - "Uptime before reboot:"
-          - "{{ (uptime_before.stdout[0] if uptime_before and uptime_before.stdout else '') }}"
           - "Reboot CLI output (may disconnect/timeout after accept):"
           - "{{ reboot_out }}"

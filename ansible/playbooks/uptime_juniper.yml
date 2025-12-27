@@ -1,0 +1,31 @@
+---
+- name: Juniper uptime (Junos)
+  hosts: all
+  gather_facts: no
+
+  vars:
+    ansible_connection: ansible.netcommon.network_cli
+    ansible_network_os: junipernetworks.junos.junos
+
+  tasks:
+    - name: Show system uptime
+      junipernetworks.junos.junos_command:
+        commands:
+          - "show system uptime"
+      register: uptime_out
+
+    - name: Extract uptime line (best-effort)
+      set_fact:
+        uptime_line: >-
+          {{
+            (uptime_out.stdout[0].splitlines()
+              | select('search', ' up ')
+              | list
+              | last
+              | default(uptime_out.stdout[0], true)
+            ) | trim
+          }}
+
+    - name: Emit uptime marker
+      debug:
+        msg: "UPTIME: {{ uptime_line }}"
