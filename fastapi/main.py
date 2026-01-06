@@ -33,7 +33,7 @@ app.include_router(api_router)
 # -----------------------------------------------------
 @app.get("/")
 async def root():
-    return RedirectResponse(url="/login")
+    return RedirectResponse(url="/auth/login")
 
 # DEBUG: Show all routes
 print("\n==== Registered Routes ====")

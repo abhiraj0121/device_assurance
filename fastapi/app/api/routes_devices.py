@@ -9,7 +9,7 @@ router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 
 
-@router.get("/", name="devices_home")
+@router.get("", name="devices_home")
 async def devices_page(request: Request):
     # Load branch + core devices from YAML
     branch_devices, core_devices = load_devices()
