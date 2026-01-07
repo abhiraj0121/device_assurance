@@ -27,96 +27,70 @@ async function runPing(deviceId) {
         const box = document.getElementById(`result-${deviceId}`);
         if (!box) return;
 
-        box.classList.remove("hidden");
+        box.classList.remove("d-none");
 
         // Status label + color
         const isSuccess = data.status === "success";
-        const statusLabel = isSuccess ? "✔ Ping Success" : "✘ Ping Failed";
-
-        box.classList.toggle("text-green-700", isSuccess);
-        box.classList.toggle("text-red-700", !isSuccess);
-
-        // Close button
-        const closeButton = `
-            <button
-                onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
-                class="text-gray-500 hover:text-black ml-2"
-                style="font-size: 16px; font-weight: bold; line-height: 12px;"
-            >×</button>
-        `;
+        const statusLabel = isSuccess ? "✔ PING_SUCCESS" : "[!] PING_FAILED";
+        const statusClass = isSuccess ? "text-success" : "text-danger";
+        const outputClass = isSuccess ? "console-output-success" : "console-output";
 
         // Clean output
         const output = data.output || "";
 
         // Build final HTML
         box.innerHTML = `
-            <div class="p-3 bg-gray-100 rounded border relative">
-
-                <div class="flex justify-between items-center mb-2">
-                    <strong>${statusLabel}</strong>
-                    ${closeButton}
+            <div class="${outputClass} mt-2">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="${statusClass} fw-bold">${statusLabel}</span>
+                    <button onclick="document.getElementById('result-${deviceId}').classList.add('d-none')"
+                            class="btn btn-sm text-secondary p-0" style="font-size: 14px;">×</button>
                 </div>
-
-                <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">
-                    ${output}
-                </pre>
+                <div class="text-secondary small">${output}</div>
             </div>
         `;
-        autoHideResult(deviceId,10000);
+        autoHideResult(deviceId, 10000);
 
     } catch (err) {
         console.error("Ping request error:", err);
     }
 }
 
+
 async function runBackup(deviceId) {
     const url = `/backup/run/${deviceId}/`;
 
     try {
-        const res = await fetch(url, { method: "POST" });
-        const data = await res.json();
+      const res = await fetch(url, { method: "POST" });
+      const data = await res.json();
 
-        const box = document.getElementById(`result-${deviceId}`);
-        if (!box) return;
+      const box = document.getElementById(`result-${deviceId}`);
+      if (!box) return;
 
-        box.classList.remove("hidden");
+      box.classList.remove("d-none");
 
-        const isSuccess = data.status === "success";
-        const statusLabel = isSuccess ? "✔ Backup Success" : "✘ Backup Failed";
+      const isSuccess = data.status === "success";
+      const statusLabel = isSuccess ? "✔ BACKUP_SUCCESS" : "[!] BACKUP_FAILED";
+      const statusClass = isSuccess ? "text-success" : "text-danger";
+      const outputClass = isSuccess ? "console-output-success" : "console-output";
 
-        box.classList.toggle("text-green-700", isSuccess);
-        box.classList.toggle("text-red-700", !isSuccess);
+      const logFile = data.logfile || "";
 
-        const closeButton = `
-            <button
-                onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
-                class="text-gray-500 hover:text-black ml-2"
-                style="font-size: 16px; font-weight: bold; line-height: 12px;"
-            >×</button>
-        `;
-
-        const logFile = data.logfile || "";
-
-        box.innerHTML = `
-            <div class="p-3 bg-gray-100 rounded border relative">
-
-                <div class="flex justify-between items-center mb-2">
-                    <strong>${statusLabel}</strong>
-                    ${closeButton}
-                </div>
-
-                <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">
-                    Log saved at:
-                    ${logFile}
-                </pre>
-            </div>
-        `;
-        autoHideResult(deviceId,10000);
-
+      box.innerHTML = `
+          <div class="${outputClass} mt-2">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span class="${statusClass} fw-bold">${statusLabel}</span>
+                  <button onclick="document.getElementById('result-${deviceId}').classList.add('d-none')"
+                          class="btn btn-sm text-secondary p-0" style="font-size: 14px;">×</button>
+              </div>
+              <div class="text-secondary small">Log saved at: ${logFile}</div>
+          </div>
+      `;
+      autoHideResult(deviceId, 10000);
     } catch (err) {
         console.error("Backup request error:", err);
     }
-}
+  }
 
 async function runRestart(deviceId) {
   // 1) get uptime first
@@ -148,19 +122,15 @@ async function runRestart(deviceId) {
   const box = document.getElementById(`result-${deviceId}`);
   if (!box) return;
 
-  box.classList.remove("hidden");
-  box.classList.remove("text-green-700", "text-red-700");
+  box.classList.remove("d-none");
   box.innerHTML = `
-    <div class="p-3 bg-gray-100 rounded border relative">
-      <div class="flex justify-between items-center mb-2">
-        <strong>⏳ Restart requested...</strong>
-        <button
-          onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
-          class="text-gray-500 hover:text-black ml-2"
-          style="font-size: 16px; font-weight: bold; line-height: 12px;"
-        >×</button>
+    <div class="console-output mt-2">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <span class="text-warning fw-bold">⏳ RESTART_REQUESTED...</span>
+        <button onclick="document.getElementById('result-${deviceId}').classList.add('d-none')"
+                class="btn btn-sm text-secondary p-0" style="font-size: 14px;">×</button>
       </div>
-      <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">Please wait...</pre>
+      <div class="text-secondary small">Please wait...</div>
     </div>
   `;
 
@@ -169,44 +139,34 @@ async function runRestart(deviceId) {
     const data = await res.json();
 
     const isSuccess = data.status === "success";
-    const statusLabel = isSuccess ? "✔ Restart Triggered" : "✘ Restart Failed";
-
-    box.classList.toggle("text-green-700", isSuccess);
-    box.classList.toggle("text-red-700", !isSuccess);
-
-    const closeButton = `
-      <button
-        onclick="document.getElementById('result-${deviceId}').classList.add('hidden')"
-        class="text-gray-500 hover:text-black ml-2"
-        style="font-size: 16px; font-weight: bold; line-height: 12px;"
-      >×</button>
-    `;
+    const statusLabel = isSuccess ? "✔ RESTART_TRIGGERED" : "[!] RESTART_FAILED";
+    const statusClass = isSuccess ? "text-success" : "text-danger";
+    const outputClass = isSuccess ? "console-output-success" : "console-output";
 
     const output = data.output || "";
     const logFile = data.logfile || "";
 
     box.innerHTML = `
-      <div class="p-3 bg-gray-100 rounded border relative">
-        <div class="flex justify-between items-center mb-2">
-          <strong>${statusLabel}</strong>
-          ${closeButton}
+      <div class="${outputClass} mt-2">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <span class="${statusClass} fw-bold">${statusLabel}</span>
+          <button onclick="document.getElementById('result-${deviceId}').classList.add('d-none')"
+                  class="btn btn-sm text-secondary p-0" style="font-size: 14px;">×</button>
         </div>
-        <pre class="bg-white p-2 rounded text-xs whitespace-pre-wrap leading-tight border">
-            ${output}
-
-            Log:
-            ${logFile}
-        </pre>
+        <div class="text-secondary small">${output}</div>
+        <div class="text-secondary small mt-1">Log: ${logFile}</div>
       </div>
     `;
-    autoHideResult(deviceId,15000);
+    autoHideResult(deviceId, 15000);
   } catch (err) {
     console.error("Restart request error:", err);
   }
 }
 
+
 async function runDiff(deviceId) {
   const url = `/backup/diff/${deviceId}/?max_lines=400`;
+  console.log(url);
 
   try {
     const res = await fetch(url, { method: "POST" });
@@ -256,93 +216,110 @@ async function runDiff(deviceId) {
 }
 
 </script>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
+<div class="row g-4">
     <!-- LEFT: DATACENTER / CORE DEVICES -->
-    <div class="bg-white rounded shadow p-6">
-        <h2 class="text-xl font-bold mb-4">🏢 DC / Core Devices ({{ core_devices|length }})</h2>
+    <div class="col-lg-6">
+        <h5 class="mb-3 text-uppercase fw-bold section-header" style="color: #ef4444;">
+            <span class="text-dark px-1 me-2 unit-label" style="background-color: #ef4444;">Unit 01</span> DC / CORE_DEVICES
+        </h5>
 
-        <ul class="space-y-3">
         {% for d in core_devices %}
-            <li class="border rounded p-4">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <p class="font-semibold">{{ d.name }}</p>
-                        <p class="text-sm text-gray-600">{{ d.ip }}</p>
-                    </div>
-
-                    <div class="flex space-x-2">
-                        <button onclick="runPing('{{ d.id }}')"
-                                class="bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700">
-                            Ping
-                        </button>
-
-                        <button onclick="runBackup('{{ d.id }}')"
-                                class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                            Backup
-                        </button>
-                    </div>
+        <div class="card p-3 mb-3">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h5 class="text-white mb-0 small fw-bold text-uppercase">{{ d.name }}</h5>
+                    <code class="text-secondary small">IP: {{ d.ip }}</code>
                 </div>
-
-                <!-- Result area -->
-                <div id="result-{{ d.id }}" class="mt-2 hidden"></div>
-            </li>
+                <div class="btn-group gap-1">
+                    <button onclick="runPing('{{ d.id }}')" class="btn btn-outline-terminal">Ping</button>
+                    <button onclick="runBackup('{{ d.id }}')" class="btn btn-outline-backup">Backup</button>
+                </div>
+            </div>
+            
+            <!-- Result area -->
+            <div id="result-{{ d.id }}" class="d-none"></div>
+        </div>
         {% endfor %}
-        </ul>
+
+        {% if not core_devices %}
+        <div class="text-center text-secondary small py-3 end-marker">
+            --- NO CORE DEVICES ---
+        </div>
+        {% endif %}
     </div>
 
 
     <!-- RIGHT: BRANCH DEVICES GROUPED BY VENDOR -->
-    <div class="bg-white rounded shadow p-6">
-        <h2 class="text-xl font-bold mb-4">🌿 Branch Devices</h2>
+    <div class="col-lg-6">
+        <h5 class="mb-3 text-uppercase fw-bold text-warning section-header">
+            <span class="bg-warning text-dark px-1 me-2 unit-label">Unit 02</span> BRANCH_DEVICES
+        </h5>
 
         {% for vendor, devices in branch_by_vendor.items() %}
-        <details class="mb-4">
-            <summary class="cursor-pointer text-lg font-semibold py-2">
-                {{ vendor }} ({{ devices|length }})
-            </summary>
-
-            <ul class="mt-3 space-y-3 ml-3">
-            {% for d in devices %}
-                <li class="border rounded p-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="font-semibold">{{ d.name }}</p>
-                            <p class="text-sm text-gray-600">{{ d.ip }}</p>
-                        </div>
-
-                        <div class="flex space-x-2">
-                            <button onclick="runPing('{{ d.id }}')"
-                                    class="bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700">
-                                Ping
-                            </button>
-
-                            <button onclick="runRestart('{{ d.id }}')"
-                                    class="bg-green-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                                Restart
-                            </button>
-
-                            <button onclick="runBackup('{{ d.id }}')"
-                                    class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                                Backup
-                            </button>
-
-                            <button onclick="runDiff('{{ d.id }}')"
-                                class="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700">
-                                Diff
-                            </button>
-
-
+        <div class="mb-3">
+            <div class="accordion" id="accordion-{{ vendor | replace(' ', '-') }}">
+                <div class="accordion-item" style="background-color: transparent; border: 1px solid #064e3b; border-radius: 0;">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed vendor-header py-2" 
+                                type="button" 
+                                data-bs-toggle="collapse" 
+                                data-bs-target="#collapse-{{ vendor | replace(' ', '-') }}"
+                                aria-expanded="false" 
+                                aria-controls="collapse-{{ vendor | replace(' ', '-') }}">
+                            {{ vendor }} ({{ devices|length }})
+                        </button>
+                    </h2>
+                    <div id="collapse-{{ vendor | replace(' ', '-') }}" 
+                         class="accordion-collapse collapse" 
+                         data-bs-parent="#accordion-{{ vendor | replace(' ', '-') }}">
+                        <div class="accordion-body p-2">
+                            <div class="scroll-area pe-2">
+                                {% for d in devices %}
+                                <div class="device-row d-flex justify-content-between align-items-center p-2 mb-2">
+                                    <div>
+                                        <span class="text-white small fw-bold">{{ d.name }}</span>
+                                        <small class="text-secondary ms-2">{{ d.ip }}</small>
+                                    </div>
+                                    <div class="d-flex gap-1">
+                                        <button onclick="runPing('{{ d.id }}')" 
+                                            class="btn btn-sm btn-outline-terminal py-0 px-2" 
+                                            style="font-size: 10px;">Ping
+                                        </button>
+                                        <button onclick="runRestart('{{ d.id }}')" 
+                                            class="btn btn-sm btn-outline-restart py-0 px-2" 
+                                            style="font-size: 10px;">Restart
+                                        </button>
+                                        <button onclick="runBackup('{{ d.id }}')" 
+                                            class="btn btn-sm btn-outline-backup py-0 px-2" 
+                                            style="font-size: 10px;">Backup
+                                        </button>
+                                        <button onclick="runDiff('{{ d.id }}')"
+                                          class="btn btn-sm btn-outline-terminal py-0 px-2"
+                                          style="font-size: 10px;">Diff
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Result area -->
+                                <div id="result-{{ d.id }}" class="d-none mb-2"></div>
+                                {% endfor %}
+                                
+                                <div class="text-center py-2 end-marker">
+                                    --- END OF {{ vendor | upper }} DEVICES ---
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Result area -->
-                    <div id="result-{{ d.id }}" class="mt-2 hidden"></div>
-                </li>
-            {% endfor %}
-            </ul>
-        </details>
+                </div>
+            </div>
+        </div>
         {% endfor %}
+
+        {% if not branch_by_vendor %}
+        <div class="text-center text-secondary small py-3 end-marker">
+            --- NO BRANCH DEVICES ---
+        </div>
+        {% endif %}
     </div>
 
 </div>
