@@ -1,23 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow">
-    <h2 class="text-xl font-semibold mb-4 text-center">Login</h2>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h4 class="text-center text-white mb-4 text-uppercase fw-bold">
+                <span class="text-success">[</span> System Login <span class="text-success">]</span>
+            </h4>
 
-    {% if error %}
-    <p class="text-red-600 text-center mb-4">{{ error }}</p>
-    {% endif %}
+            {% if error %}
+            <div class="console-output mb-3">
+                <span class="text-danger fw-bold">[!] AUTH_FAILED:</span>
+                <span class="text-secondary">{{ error }}</span>
+            </div>
+            {% endif %}
 
-    <form method="post" action="/login" class="space-y-4">
-        <input type="text" name="username" placeholder="Username"
-               class="w-full px-4 py-2 border rounded" required>
+            <form method="post" action="/auth/login">
+                <div class="mb-3">
+                    <label class="form-label text-secondary small text-uppercase">Username</label>
+                    <input type="text" name="username" 
+                           class="form-control bg-dark text-white border-secondary" 
+                           placeholder="root" required>
+                </div>
 
-        <input type="password" name="password" placeholder="Password"
-               class="w-full px-4 py-2 border rounded" required>
+                <div class="mb-3">
+                    <label class="form-label text-secondary small text-uppercase">Password</label>
+                    <input type="password" name="password" 
+                           class="form-control bg-dark text-white border-secondary" 
+                           placeholder="••••••••" required>
+                </div>
 
-        <button class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-            Login
-        </button>
-    </form>
+                <button type="submit" class="btn btn-outline-restart w-100 mt-2">
+                    AUTHENTICATE
+                </button>
+            </form>
+
+            <div class="text-center mt-4">
+                <small class="text-secondary">DOS Device Assurance v1.0</small>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
