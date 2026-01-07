@@ -76,3 +76,7 @@ configs/
 # If you add .gitkeep files to keep empty folders, allow them:
 !logs/.gitkeep
 !ansible/configs/.gitkeep
+
+# Python bytecode
+__pycache__/
+*.py[cod]
